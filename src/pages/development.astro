@@ -1,7 +1,8 @@
 ---
+import {withBase} from '../lib/paths';
 import Layout from '../layouts/Layout.astro';
 import commentary from '../content/creator-notes.json';
 ---
 <Layout title="Creator's notes and FAQ"><section class="page-intro"><p class="eyebrow">Outside the fictional universe / Development</p><h1>Creator's notes<br/><em>& FAQ</em></h1><p class="hero-deck">{commentary.intro}</p></section>
-<section class="section creator-layout"><div><p class="eyebrow">Documented influence</p><h2>{commentary.influence.title}</h2><p>{commentary.influence.text}</p><details class="evidence"><summary>Reference</summary><p>{commentary.influence.reference}</p></details><a class="arrow-link" href="/projects/god-loves-man-kills/">Read the Film 4 treatment ↗</a></div><aside class="creator-placeholders"><p class="eyebrow">Future owner-written commentary</p>{commentary.futureNotes.map(note=><article><h3>{note.title}</h3><p>{note.description}</p><small>Not yet published</small></article>)}</aside></section>
+<section class="section creator-layout"><div><p class="eyebrow">Documented influence</p><h2>{commentary.influence.title}</h2><p>{commentary.influence.text}</p><details class="evidence"><summary>Reference</summary><p>{commentary.influence.reference}</p></details><a class="arrow-link" href={withBase("/projects/god-loves-man-kills/")}>Read the Film 4 treatment ↗</a></div><aside class="creator-placeholders"><p class="eyebrow">Future owner-written commentary</p>{commentary.futureNotes.map(note=><article><h3>{note.title}</h3><p>{note.description}</p><small>Not yet published</small></article>)}</aside></section>
 <section class="section faq"><p class="eyebrow">For shared readers</p><h2>Frequently asked questions</h2>{commentary.faq.map((item,i)=><details open={i===0}><summary>{item.question}</summary><p>{item.answer}</p></details>)}</section></Layout>

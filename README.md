@@ -13,7 +13,7 @@ npm ci
 npm run dev
 ```
 
-Open http://localhost:4321. In PowerShell, use `npm.cmd` if execution policy blocks `npm`.
+Open http://localhost:4321/ALR-X-Men-Universe/. In PowerShell, use `npm.cmd` if execution policy blocks `npm`.
 
 ## Check and build
 
@@ -31,4 +31,10 @@ The owner's additional `npm run verify` audit requires the private sibling file 
 
 Edit structured Markdown and JSON in `src/content/` through source code. Characters and World use independently expandable groups; film beats retain stable anchors and intentionally blank unsupported sections. Internal event records support existing content but do not generate public pages or search destinations.
 
-This repository contains only the website source, website content, supplied artwork copies, configuration, package files, and scripts. Original writing documents, research documents, dependencies, build output, local environment files, and credentials are excluded. No hosting or GitHub Pages deployment is configured.
+This repository contains only the website source, website content, supplied artwork copies, configuration, package files, and scripts. Original writing documents, research documents, dependencies, build output, local environment files, and credentials are excluded.
+
+## GitHub Pages
+
+The deployment workflow in `.github/workflows/deploy.yml` checks, builds, validates repository-prefixed URLs, and deploys static output on pushes to `main` or a manual workflow run. GitHub Pages must be enabled with **GitHub Actions** as the publishing source, on a repository eligible for Pages under the owner's plan.
+
+The configured destination is https://alr5342.github.io/ALR-X-Men-Universe/. `src/lib/paths.ts` applies Astro's base path to navigation, artwork, and search without changing story content. Run `node scripts/verify-pages.mjs` after building to check deployment links and assets without the private research archive. Hosting is not live until GitHub Pages activation and the deployment workflow succeed.

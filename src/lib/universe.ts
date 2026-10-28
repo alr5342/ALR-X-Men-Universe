@@ -1,6 +1,7 @@
 import { getCollection, type CollectionEntry } from 'astro:content';
 import { existsSync } from 'node:fs';
-import assets from '../content/assets.json';
+import assetFiles from '../content/assets.json';
+import {withBase} from './paths';
 import evidence from '../content/evidence.json';
 import {beatDefinitions} from './beats';
 export type Entity = CollectionEntry<'entities'>['data'] & { paragraphs: string[]; url: string };
@@ -8,13 +9,14 @@ export type Link = CollectionEntry<'relationships'>['data'];
 export type Issue = CollectionEntry<'issues'>['data'];
 export type Neighbor = { entity: Entity; link: Link };
 export const sectionFor = {project:'projects',character:'characters',faction:'factions',event:'events',context:'world',location:'locations',lore:'lore'};
+const assets = Object.fromEntries(Object.entries(assetFiles).map(([id,asset])=>[id,{...asset,path:withBase(asset.path)}])) as typeof assetFiles;
 export { assets, evidence };
 export function isPublicEntity(entity:Pick<Entity,'kind'>) { return entity.kind!=='event'; }
 let cached: ReturnType<typeof load> | undefined;
 async function load() {
   const [records, edges, notes] = await Promise.all([getCollection('entities'),getCollection('relationships'),getCollection('issues')]);
   const entities: Entity[] = records.map(({data, body}) => ({...data, paragraphs:(body ?? '').trim().split(/\n\s*\n/).filter(Boolean),
-    url:data.pageMode === 'preview' ? `/saga/#${data.id}` : data.pageMode === 'context' ? `/world/#${data.id}` : `/${sectionFor[data.kind]}/${data.slug}/`}));
+    url:withBase(data.pageMode === 'preview' ? `/saga/#${data.id}` : data.pageMode === 'context' ? `/world/#${data.id}` : `/${sectionFor[data.kind]}/${data.slug}/`)}));
   entities.sort(editorialOrder);
   const links = edges.map(e=>e.data), issues = notes.map(n=>n.data);
   const byId = new Map(entities.map(e=>[e.id,e]));
@@ -42,7 +44,7 @@ async function load() {
     if(l.kind==='occurs-in' && (byId.get(l.fromId)?.kind!=='event'||byId.get(l.toId)?.kind!=='project')) throw Error(`Invalid event context: ${l.id}`);
   });
   issues.forEach(i=>{refs(i.subjectIds);sources(i.sourceRefs);});
-  for(const asset of Object.values(assets)) if(!existsSync(`public${asset.path}`)) throw Error(`Missing image: ${asset.path}`);
+  for(const asset of Object.values(assetFiles)) if(!existsSync(`public${asset.path}`)) throw Error(`Missing image: ${asset.path}`);
   return { entities, links, issues, byId };
 }
 export function getUniverse() { return cached ??= load(); }

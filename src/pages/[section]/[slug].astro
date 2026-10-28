@@ -1,4 +1,5 @@
 ---
+import {withBase} from '../../lib/paths';
 import Layout from '../../layouts/Layout.astro';
 import Hero from '../../components/Hero.astro';
 import StoryText from '../../components/StoryText.astro';
@@ -29,5 +30,5 @@ const organizations=entity.kind==='project'?connected.filter(n=>n.entity.kind===
 {cast.length>0&&<section class="section cast" id="cast"><p class="eyebrow">Roles and biographies</p><h2>Characters in Film {entity.sagaOrder}</h2>{cast.map(n=><a class="cast-row" href={n.entity.url}><h3>{n.entity.title}</h3><p>{n.link.label}</p><span>↗</span></a>)}</section>}
 {organizations.length>0&&<section class="section"><p class="eyebrow">The conflict</p><h2>Organizations in the story</h2><ul class="context-list">{organizations.map(n=><li><a class="context-entry" href={n.entity.url}><span class="context-entry-title">{n.entity.title}</span><p>{n.link.label}</p></a></li>)}</ul></section>}
 {members.length>0&&<section class="section cast" id="membership"><p class="eyebrow">Documented members / Across the saga</p><h2>Membership and roles</h2><p>These entries describe team history, rather than a single present-day roster.</p>{members.map(n=><a class="cast-row" href={n.entity.url}><h3>{n.entity.title}</h3><p>{n.link.label}{n.link.timing?` · ${n.link.timing}`:''}</p><span>↗</span></a>)}</section>}
-<section class="section return-section"><a class="arrow-link" href="/saga/">See the larger saga →</a>{['faction','location','lore','context'].includes(entity.kind)&&<a class="arrow-link" href="/world/">Explore the world →</a>}</section>
+<section class="section return-section"><a class="arrow-link" href={withBase("/saga/")}>See the larger saga →</a>{['faction','location','lore','context'].includes(entity.kind)&&<a class="arrow-link" href={withBase("/world/")}>Explore the world →</a>}</section>
 </Layout>
