@@ -1,0 +1,11 @@
+---
+import Layout from '../layouts/Layout.astro';
+import SagaRibbon from '../components/interactive/SagaRibbon';
+import {getUniverse,assets} from '../lib/universe';
+const {entities}=await getUniverse();
+const films=entities.filter(e=>e.sagaOrder).sort((a,b)=>a.sagaOrder!-b.sagaOrder!);
+const w=entities.find(e=>e.id==='wolverine-series')!;
+---
+<Layout title="The five-film saga"><section class="page-intro"><p class="eyebrow">Stories / Films 1–5</p><h1>The X-Men<br/><em>saga</em></h1><p class="hero-deck">Five films follow the team from Xavier’s first class to the confrontation with Apocalypse. Each chapter changes its membership, its conflicts and its relationship with the wider world.</p></section><section class="section ribbon-section"><SagaRibbon projects={films} assets={assets}/></section>
+<section class="section saga-chapters" id="story-chapters">{films.map(f=>{const logo=assets[f.imageIds[0] as keyof typeof assets];return <a id={f.id} class="chapter" href={f.url} style={`--film-color:${f.filmColor}`}><div class="chapter-art"><img class="film-logo" src={logo.path} alt="" width={logo.width} height={logo.height}/></div><div><p class="eyebrow">Film {f.sagaOrder} / {f.actRole}</p><h2>{f.title}</h2><p>{f.summary}</p></div></a>;})}</section>
+<section class="section beyond" id={w.id}><p class="eyebrow">Secondary project / Speculative timelines</p><h2>{w.title}</h2><p>{w.paragraphs[0]}</p></section></Layout>

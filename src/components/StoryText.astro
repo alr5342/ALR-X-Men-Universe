@@ -1,0 +1,14 @@
+---
+import {isPublicEntity,type Entity} from '../lib/universe';
+interface Props {text:string;entities:Entity[];currentId?:string}
+const {text,entities,currentId}=Astro.props;
+const candidates=entities.filter(e=>isPublicEntity(e)&&(e.pageMode==='full'||e.sagaOrder)&&e.id!==currentId).sort((a,b)=>b.title.length-a.title.length||Number(b.kind==='faction')-Number(a.kind==='faction'));
+const names=new Map<string,Entity>();
+for(const entity of candidates)for(const name of [entity.title,...entity.aliases])if(!names.has(name))names.set(name,entity);
+for(const entity of candidates)if(entity.sagaOrder)names.set(`Film ${entity.sagaOrder}`,entity);
+const escaped=[...names.keys()].sort((a,b)=>b.length-a.length).map(name=>name.replace(/[.*+?^${}()|[\]\\]/g,'\\$&'));
+const parts=escaped.length?text.split(new RegExp(`(${escaped.join('|')})`,'g')):[text];
+const linked=new Set<string>();
+let linkCount=0;
+---
+{text.trim()&&<p>{parts.map(part=>{const entity=names.get(part);if(!entity||linked.has(entity.id)||linkCount>=3)return part;linked.add(entity.id);linkCount++;return <a class="inline-story-link" href={entity.url}>{part}</a>;})}</p>}

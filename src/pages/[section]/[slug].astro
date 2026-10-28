@@ -1,0 +1,33 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import Hero from '../../components/Hero.astro';
+import StoryText from '../../components/StoryText.astro';
+import CharacterJourney from '../../components/CharacterJourney.astro';
+import FilmTreatment from '../../components/FilmTreatment.astro';
+import {beatActs} from '../../lib/beats';
+import { getUniverse,neighbors,isPublicEntity,sectionFor,evidence,type Entity } from '../../lib/universe';
+export async function getStaticPaths(){const {entities}=await getUniverse();return entities.filter(e=>e.pageMode==='full'&&isPublicEntity(e)).map(entity=>({params:{section:sectionFor[entity.kind],slug:entity.slug},props:{entity}}));}
+interface Props {entity:Entity}
+const {entity}=Astro.props;
+const {entities,links}=await getUniverse();
+const connected=neighbors(entity.id,entities,links);
+const isCharacter=entity.kind==='character';
+const isFilm=entity.kind==='project'&&Boolean(entity.sagaOrder);
+const cast=entity.kind==='project'?connected.filter(n=>n.entity.kind==='character'&&n.link.kind==='appears-in').sort((a,b)=>(a.link.castOrder??a.entity.narrativeOrder??Infinity)-(b.link.castOrder??b.entity.narrativeOrder??Infinity)):[];
+const affiliations=isCharacter?connected.filter(n=>n.entity.kind==='faction'&&n.link.kind==='member-of'):[];
+const members=entity.kind==='faction'?connected.filter(n=>n.entity.kind==='character'&&n.link.kind==='member-of'):[];
+const organizations=entity.kind==='project'?connected.filter(n=>n.entity.kind==='faction'):[];
+---
+<Layout title={entity.title} description={entity.summary}><Hero entity={entity}/>
+{entity.quickBio.length>0&&<section class="bio-facts" aria-label="At a glance"><dl>{entity.quickBio.map(f=><div><dt>{f.label}</dt><dd>{f.text}</dd></div>)}</dl></section>}
+<nav class="on-this-page" aria-label="On this page"><span class="eyebrow">On this page</span>{isCharacter?<><a href="#journey">Saga journey / Appearances</a><a href="#timeline">Character Timeline</a></>:<a href="#biography">{entity.kind==='project'?'Premise':'Overview'}</a>}{isFilm&&beatActs.map(act=><a href={`#${act.id}`}>Act {act.roman}: {act.title}</a>)}{entity.sections.map(s=><a href={`#${s.id}`}>{s.title}</a>)}{affiliations.length>0&&<a href="#affiliations">Affiliations</a>}{cast.length>0&&<a href="#cast">Cast</a>}{members.length>0&&<a href="#membership">Membership</a>}</nav>
+{isCharacter&&<CharacterJourney entity={entity} entities={entities}/>}
+{isFilm?<FilmTreatment entity={entity} entities={entities}/>:<>
+<section class:list={['section','story-section',{'intentionally-empty':entity.paragraphs.length===0&&entity.sections.length===0}]} id={isCharacter?'timeline':'biography'}><aside class="story-label"><p class="eyebrow">{isCharacter?'The character':entity.kind==='event'?'The event':entity.kind==='project'?'Movie treatment':entity.kind==='location'?'The setting':entity.kind==='lore'?'Worldbuilding':'Organization'}</p><span class="chapter-number" aria-hidden="true">{entity.symbol}</span></aside><div class="story-prose"><h2>{isCharacter?'Character Timeline':entity.kind==='project'?'Premise and setting':'Overview'}</h2>{entity.paragraphs.map(text=><StoryText text={text} entities={entities} currentId={entity.id}/>)}{entity.sections.map(s=><article class:list={['narrative-section',{'intentionally-empty':s.paragraphs.length===0}]} id={s.id}>{isCharacter?<h3>{s.title}</h3>:<h2>{s.title}</h2>}<div class="section-content">{s.paragraphs.map(text=><StoryText text={text} entities={entities} currentId={entity.id}/>)}</div></article>)}<details class="evidence"><summary>Story references</summary>{entity.sourceRefs.map(id=><p>{evidence[id as keyof typeof evidence]}</p>)}</details></div></section>
+</>}
+{affiliations.length>0&&<section class="section" id="affiliations"><p class="eyebrow">Team history</p><h2>Affiliations</h2><ul class="context-list">{affiliations.map(n=><li><a class="context-entry" href={n.entity.url}><span class="context-entry-title">{n.entity.title}</span><p>{n.link.label}{n.link.timing?` · ${n.link.timing}`:''}</p></a></li>)}</ul></section>}
+{cast.length>0&&<section class="section cast" id="cast"><p class="eyebrow">Roles and biographies</p><h2>Characters in Film {entity.sagaOrder}</h2>{cast.map(n=><a class="cast-row" href={n.entity.url}><h3>{n.entity.title}</h3><p>{n.link.label}</p><span>↗</span></a>)}</section>}
+{organizations.length>0&&<section class="section"><p class="eyebrow">The conflict</p><h2>Organizations in the story</h2><ul class="context-list">{organizations.map(n=><li><a class="context-entry" href={n.entity.url}><span class="context-entry-title">{n.entity.title}</span><p>{n.link.label}</p></a></li>)}</ul></section>}
+{members.length>0&&<section class="section cast" id="membership"><p class="eyebrow">Documented members / Across the saga</p><h2>Membership and roles</h2><p>These entries describe team history, rather than a single present-day roster.</p>{members.map(n=><a class="cast-row" href={n.entity.url}><h3>{n.entity.title}</h3><p>{n.link.label}{n.link.timing?` · ${n.link.timing}`:''}</p><span>↗</span></a>)}</section>}
+<section class="section return-section"><a class="arrow-link" href="/saga/">See the larger saga →</a>{['faction','location','lore','context'].includes(entity.kind)&&<a class="arrow-link" href="/world/">Explore the world →</a>}</section>
+</Layout>

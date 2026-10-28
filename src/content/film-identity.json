@@ -1,0 +1,32 @@
+{
+  "reference": "X-Men Documents/X-Men_PoC.png",
+  "method": "Color families follow the supplied five-film sheet; hex accents are the most frequent fully opaque sampled colors in each supplied logo (7-pixel sampling grid). No canonical flat hex swatches are asserted for the textured reference sheet.",
+  "films": [
+    {
+      "projectId": "F1",
+      "assetId": "cyclops",
+      "color": "#D80215"
+    },
+    {
+      "projectId": "F2",
+      "assetId": "beast",
+      "color": "#04479E"
+    },
+    {
+      "projectId": "F3",
+      "assetId": "mojo",
+      "color": "#FBCC16"
+    },
+    {
+      "projectId": "F4",
+      "assetId": "glmk",
+      "color": "#4B207D"
+    },
+    {
+      "projectId": "F5",
+      "assetId": "apocalypse",
+      "color": "#5F7E9B"
+    }
+  ],
+  "filenameNote": "The owner-requested Cyclops_Logo.jpg is absent; the supplied matching Cyclops_Logo.png is used unchanged."
+}

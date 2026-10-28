@@ -1,0 +1,11 @@
+---
+import { assets,type Entity } from '../lib/universe';
+interface Props { entity:Entity }
+const {entity}=Astro.props;
+const asset=entity.imageIds[0]?assets[entity.imageIds[0] as keyof typeof assets]:undefined;
+---
+<section class:list={['hero','entity-hero',entity.kind]} style={entity.filmColor?`--film-color:${entity.filmColor}`:undefined}>
+<div class="hero-art" aria-hidden="true">{asset?<img src={asset.path} alt="" width={asset.width} height={asset.height}/>:<span class="abstract-symbol">{entity.symbol}</span>}<div class="orbit orbit-one"></div><div class="orbit orbit-two"></div></div>
+<div class="hero-copy"><a class="back-link" href={entity.kind==='project'?'/saga/':entity.kind==='character'?'/characters/':'/world/'}>← {entity.kind==='project'?'The saga':entity.kind==='character'?'Characters':'The world'}</a><p class="eyebrow">{entity.eyebrow}</p><h1>{entity.title}</h1><p class="hero-deck">{entity.summary}</p><div class="hero-meta"><span>{entity.kind==='character'?'Saga-wide biography':entity.kind==='event'?'Story milestone':entity.kind==='faction'?'Teams and affiliations':entity.kind==='location'?'Places and institutions':entity.kind==='lore'?'World concepts':entity.kind==='context'?'Political and religious movements':`Film ${entity.sagaOrder} / Movie treatment`}</span>{entity.provisional&&<span>Acolytes: provisional name</span>}</div></div>
+{asset&&<span class="art-note">Owner-selected film logo</span>}
+</section>

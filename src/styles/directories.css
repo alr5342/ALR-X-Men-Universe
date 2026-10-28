@@ -1,0 +1,31 @@
+.entity-directory{padding-top:10px}
+.directory-group{border-top:1px solid var(--line)}
+.directory-group:last-child{border-bottom:1px solid var(--line)}
+.directory-group>summary,.directory-subgroup>summary{display:grid;grid-template-columns:minmax(0,1fr) auto 24px;align-items:center;gap:18px;list-style:none;cursor:pointer}
+.directory-group>summary{padding:28px 0}
+.directory-group>summary::-webkit-details-marker,.directory-subgroup>summary::-webkit-details-marker{display:none}
+.directory-group>summary h2{font-size:42px;line-height:1.1;margin:0}
+.directory-count{color:var(--muted);font-size:12px;min-width:22px;text-align:right}
+.directory-indicator{color:var(--gold);font-size:24px;text-align:center;line-height:1}
+.directory-indicator:before{content:'+'}
+details[open]>summary>.directory-indicator:before{content:'−'}
+.directory-group-content{padding:0 0 24px 26px}
+.directory-subgroup{border-top:1px solid var(--line)}
+.directory-subgroup>summary{padding:20px 0}
+.directory-subgroup h3{font-size:28px;line-height:1.2;margin:0}
+.directory-group>summary:hover h2,.directory-subgroup>summary:hover h3{color:var(--gold)}
+.directory-entries{list-style:none;padding:0;margin:0;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));column-gap:36px}
+.directory-entries li{min-width:0}
+.directory-entry{display:block;height:100%;padding:19px 12px 20px 0;border-top:1px solid var(--line)}
+.directory-entry-title{display:block;font-family:var(--display);font-weight:500;font-size:25px;line-height:1.2;margin-bottom:10px}
+.directory-entry p{font-size:13px;line-height:1.65;margin:0;max-width:60ch}
+.directory-entry-note{font-size:8px;margin:0 0 8px}
+.directory-entry:hover .directory-entry-title,.context-entry:hover .context-entry-title{color:var(--gold)}
+.context-list .context-entry{display:block;font:inherit}
+.context-entry-title{font-family:var(--display);font-size:28px;line-height:1.2}
+.context-list .context-entry p{font-family:var(--body)}
+.saga-ribbon .film-stop{display:block;cursor:pointer}
+.saga-ribbon .film-stop:hover strong,.chapter:hover h2{color:color-mix(in srgb,var(--film-color) 55%,var(--paper))}
+.chapter:focus-visible,.directory-entry:focus-visible,.context-entry:focus-visible{outline-offset:-3px}
+.journey-film:hover strong{color:var(--gold)}
+@media(max-width:650px){.directory-group>summary{padding:24px 0;gap:12px}.directory-group>summary h2{font-size:32px}.directory-subgroup h3{font-size:25px}.directory-group-content{padding-left:14px}.directory-entries{grid-template-columns:1fr}.directory-entry{padding:17px 8px 18px 0}.directory-entry-title{font-size:25px}.directory-entries p{font-size:13px}}

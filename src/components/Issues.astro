@@ -1,0 +1,7 @@
+---
+import Status from './Status.astro';
+import { evidence, type Issue } from '../lib/universe';
+interface Props { issues: Issue[]; always?: boolean }
+const { issues,always=false }=Astro.props;
+---
+{issues.length>0&&<aside class:list={['issue-panel',{'development-only':!always}]} aria-label="Development annotations"><p class="eyebrow">Development / Open threads</p>{issues.map(issue=><div class="issue"><Status status={issue.status}/><h3>{issue.title}</h3><p>{issue.note}</p><details><summary>Owner decision</summary>{issue.sourceRefs.map(id=><p>{evidence[id as keyof typeof evidence]}</p>)}</details></div>)}</aside>}

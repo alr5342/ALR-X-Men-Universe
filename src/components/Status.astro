@@ -1,0 +1,4 @@
+---
+const { status, provisional=false }=Astro.props;
+---
+<span class:list={['status',status]}><i aria-hidden="true"></i>{status}</span>{provisional&&<span class="status undecided">Provisional name</span>}

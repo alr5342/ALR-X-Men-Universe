@@ -1,0 +1,26 @@
+---
+import StoryText from './StoryText.astro';
+import {beatActs,beatDefinitions,beatAnchor} from '../lib/beats';
+import {evidence,type Entity} from '../lib/universe';
+interface Props {entity:Entity;entities:Entity[]}
+const {entity,entities}=Astro.props;
+---
+<section class="section story-section film-premise" id="biography">
+  <aside class="story-label"><p class="eyebrow">Movie treatment</p><span class="chapter-number" aria-hidden="true">{entity.symbol}</span></aside>
+  <div class="story-prose"><h2>Premise and setting</h2>{entity.paragraphs.map(text=><StoryText text={text} entities={entities} currentId={entity.id}/>)}
+    
+  </div>
+</section>
+<div class="film-beat-sheet" style={`--film-color:${entity.filmColor}`}>
+{beatActs.map(act=><section class="section film-act" id={act.id} aria-labelledby={`${act.id}-title`}>
+  <header class="act-heading"><p class="eyebrow">Act {act.roman} / {String(act.start+1).padStart(2,'0')}–{String(act.end).padStart(2,'0')}</p><h2 id={`${act.id}-title`}>{act.title}</h2></header>
+  <div class="beat-prose">{entity.beats.slice(act.start,act.end).map((beat,offset)=>{const number=act.start+offset+1;const definition=beatDefinitions[number-1];return <article id={beatAnchor(beat.id)} class:list={['story-beat',{'intentionally-empty':beat.status==='not-established'}]} data-beat={beat.id} data-beat-status={beat.status} aria-labelledby={`${beatAnchor(beat.id)}-title`}>
+    {beat.legacyIds.map(id=><span id={id} class="legacy-anchor" aria-hidden="true"></span>)}
+    <p class="eyebrow beat-label">{String(number).padStart(2,'0')}{beat.title!==definition.label&&<> / {definition.label}</>}</p>
+    <h3 id={`${beatAnchor(beat.id)}-title`}>{beat.title}</h3>
+    <div class="beat-content">{beat.paragraphs.map(text=><StoryText text={text} entities={entities} currentId={entity.id}/>)}</div>
+  </article>;})}</div>
+</section>)}
+</div>
+{entity.sections.length>0&&<section class="section film-supplement"><div class="story-prose">{entity.sections.map(s=><article id={s.id}><h2>{s.title}</h2>{s.paragraphs.map(text=><StoryText text={text} entities={entities} currentId={entity.id}/>)}</article>)}</div></section>}
+<section class="section film-references"><details class="evidence"><summary>Story references</summary>{entity.sourceRefs.map(id=><p>{evidence[id as keyof typeof evidence]}</p>)}</details></section>

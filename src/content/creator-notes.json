@@ -1,0 +1,40 @@
+{
+  "intro": "Creator commentary, documented influences and answers for shared readers. This section is curated separately from the fictional universe; private research and working notes are not published automatically.",
+  "influence": {
+    "title": "God Loves, Man Kills",
+    "text": "The project's recorded inspiration identifies the God Loves, Man Kills graphic novel as a major influence on Film 4's plot and themes. The treatment also places Xavier out of action, leaving Cyclops and Magneto at the center of its leadership conflict.",
+    "reference": "Final Master Project Index — Film 4 inspirations, A11/A12"
+  },
+  "faq": [
+    {
+      "question": "What is this project?",
+      "answer": "A personal fictional X-Men saga built around five central films, with related projects at different levels of development. This story bible organizes the universe for the owner and readers invited to review it."
+    },
+    {
+      "question": "Where should I begin?",
+      "answer": "Use Saga for the five-film overviews and detailed treatments. Character biographies follow documented appearances and milestones across the saga, rather than stopping at the film where a character is introduced."
+    },
+    {
+      "question": "Does the site hide spoilers?",
+      "answer": "No. Full spoilers are intentional so shared readers can understand the story's complete scope."
+    },
+    {
+      "question": "Are the later timelines fixed continuations?",
+      "answer": "No. Wolverine-series futures and post-Film-5 projects remain speculative. The story pages explain relevant boundaries where needed rather than presenting possible futures as settled events."
+    },
+    {
+      "question": "Are the film titles final?",
+      "answer": "The displayed film titles are working labels. Alternative titles in the research may refer to the same project."
+    }
+  ],
+  "futureNotes": [
+    {
+      "title": "Creative choices",
+      "description": "Space for owner-written explanations of selected story decisions."
+    },
+    {
+      "title": "Behind the scenes",
+      "description": "Space for owner-selected development history, process and artwork commentary."
+    }
+  ]
+}

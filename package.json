@@ -1,0 +1,26 @@
+{
+  "name": "x-men-universe",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "node scripts/astro.mjs dev",
+    "build": "node scripts/astro.mjs build",
+    "check": "node scripts/astro.mjs check",
+    "preview": "node scripts/astro.mjs preview",
+    "verify": "node scripts/verify.mjs",
+    "browser": "node scripts/browser-smoke.mjs"
+  },
+  "dependencies": {
+    "@astrojs/react": "7.0.1",
+    "astro": "7.3.6",
+    "react": "19.3.0",
+    "react-dom": "19.3.0"
+  },
+  "devDependencies": {
+    "@astrojs/check": "0.9.10",
+    "@types/node": "26.6.4",
+    "@types/react": "19.3.0",
+    "@types/react-dom": "19.3.0",
+    "typescript": "6.0.3"
+  }
+}

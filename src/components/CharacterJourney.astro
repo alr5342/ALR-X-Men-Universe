@@ -1,0 +1,8 @@
+---
+import StoryText from './StoryText.astro';
+import type {Entity} from '../lib/universe';
+interface Props {entity:Entity;entities:Entity[]}
+const {entity,entities}=Astro.props;
+const entries=[...entity.journey].sort((a,b)=>(entities.find(e=>e.id===a.projectId)?.sagaOrder??Infinity)-(entities.find(e=>e.id===b.projectId)?.sagaOrder??Infinity));
+---
+<section class:list={['section','biography-journey',{'intentionally-empty':entries.length===0}]} id="journey"><p class="eyebrow">Participation in each story</p><h2>Saga journey / Established appearances</h2><div class="section-content">{entries.length>0&&<ol>{entries.map(j=>{const project=entities.find(e=>e.id===j.projectId)!;return <li style={`--film-color:${project.filmColor??'var(--gold)'}`}><a class="journey-film" href={project.url}><span>{project.sagaOrder?`Film ${project.sagaOrder}`:'Other project'}</span><strong>{project.title}</strong></a><div><h3>{j.label}</h3>{j.status!=='established'&&<p class="eyebrow">{j.status==='speculative'?'Speculative appearance':'Undecided'}</p>}<StoryText text={j.text} entities={entities} currentId={entity.id}/></div></li>;})}</ol>}</div></section>

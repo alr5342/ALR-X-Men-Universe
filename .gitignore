@@ -1,0 +1,30 @@
+node_modules/
+dist/
+.astro/
+.preview/
+
+# Local hosting settings and credentials
+.vercel/
+.netlify/
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+.npmrc
+
+# Temporary files, logs, and editor/OS state
+*.log
+*.tmp
+*.temp
+*.tsbuildinfo
+coverage/
+.cache/
+.tmp/
+tmp/
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+Desktop.ini
+*~

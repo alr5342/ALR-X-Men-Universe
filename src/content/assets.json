@@ -1,0 +1,42 @@
+{
+  "glmk": {
+    "path": "/images/glmk.png",
+    "alt": "Film 4 logo: Magneto helmet and Sentinel",
+    "width": 799,
+    "height": 993,
+    "credit": "Owner-selected artwork: GLMK_Logo.png",
+    "placeholder": false
+  },
+  "cyclops": {
+    "path": "/images/cyclops.png",
+    "alt": "Film 1 logo: Cyclops visor",
+    "width": 972,
+    "height": 1254,
+    "credit": "Owner-selected artwork: Cyclops_Logo.png",
+    "placeholder": false
+  },
+  "beast": {
+    "path": "/images/beast.png",
+    "alt": "Film 2 logo: Beast",
+    "width": 1254,
+    "height": 1062,
+    "credit": "Owner-selected artwork: Beast_logo.png",
+    "placeholder": false
+  },
+  "mojo": {
+    "path": "/images/mojo.png",
+    "alt": "Film 3 logo: Mojo",
+    "width": 1254,
+    "height": 1254,
+    "credit": "Owner-selected artwork: Mojo_Logo.png",
+    "placeholder": false
+  },
+  "apocalypse": {
+    "path": "/images/apocalypse.png",
+    "alt": "Film 5 logo: Apocalypse",
+    "width": 707,
+    "height": 992,
+    "credit": "Owner-selected artwork: Apocalypse_Logo.png",
+    "placeholder": false
+  }
+}

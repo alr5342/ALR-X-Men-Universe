@@ -1,0 +1,17 @@
+---
+import '../styles/global.css';
+import '../styles/v2.css';
+import '../styles/beats.css';
+import '../styles/directories.css';
+import Search from '../components/interactive/Search';
+const { title='X-Men Universe', description='A five-film saga. A world of connected stories.' }=Astro.props;
+const path=Astro.url.pathname;
+---
+<!doctype html><html lang="en"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1"/><meta name="description" content={description}/><title>{title} · X-Men Universe</title><link rel="icon" href="/favicon.svg"/></head>
+<body><a class="skip" href="#main">Skip to story</a>
+<header class="site-header"><a class="brand" href="/" aria-label="X-Men Universe home"><span class="brand-mark">X</span><span>X-MEN <small>UNIVERSE</small></span></a>
+<nav aria-label="Main navigation">{['Saga','Characters','World','Development'].map(label=><a href={`/${label.toLowerCase()}/`} aria-current={path.startsWith(`/${label.toLowerCase()}/`)?'page':undefined}>{label}</a>)}</nav>
+<div class="header-tools"><Search client:load/></div></header>
+<main id="main"><slot/></main>
+<footer><a class="brand" href="/"><span class="brand-mark">X</span><span>X-MEN <small>STORY BIBLE</small></span></a><p>A personal fictional universe · Full spoilers<br/><span class="muted">Five-film saga / Working titles</span></p><a href="/development/">Creator's notes & FAQ ↗</a></footer>
+</body></html>

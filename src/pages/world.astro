@@ -1,0 +1,8 @@
+---
+import Layout from '../layouts/Layout.astro';
+import EntityDirectory from '../components/EntityDirectory.astro';
+import {worldDirectory} from '../lib/directories';
+import {getUniverse} from '../lib/universe';
+const {entities}=await getUniverse();
+---
+<Layout title="The world"><section class="page-intro"><p class="eyebrow">Organizations / Places / Worldbuilding</p><h1>The world<br/><em>of the X-Men</em></h1><p class="hero-deck">Browse the teams, institutions, places and concepts that shape the saga. Each entry opens its own reference page.</p></section><EntityDirectory groups={worldDirectory(entities)} label="World reference groups"/></Layout>

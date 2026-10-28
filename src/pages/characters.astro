@@ -1,0 +1,9 @@
+---
+import Layout from '../layouts/Layout.astro';
+import EntityDirectory from '../components/EntityDirectory.astro';
+import {characterDirectory} from '../lib/directories';
+import {getUniverse} from '../lib/universe';
+const {entities,links}=await getUniverse();
+const groups=characterDirectory(entities,links);
+---
+<Layout title="Character biographies"><section class="page-intro"><p class="eyebrow">People / Saga-wide biographies</p><h1>Character<br/><em>biographies</em></h1><p class="hero-deck">Browse the X-Men, their adversaries and independent allies. Open a group, then select a character to follow their journey across the saga.</p></section><EntityDirectory groups={groups} label="Character groups"/></Layout>

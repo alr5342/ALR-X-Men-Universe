@@ -1,0 +1,15 @@
+---
+import DirectoryEntries from './DirectoryEntries.astro';
+import type {DirectoryGroup} from '../lib/directories';
+interface Props {groups:DirectoryGroup[];label:string}
+const {groups,label}=Astro.props;
+---
+<section class="section entity-directory" aria-label={label}>
+{groups.map(group=><details class="directory-group" id={group.id} open={group.open}>
+  <summary><h2>{group.title}</h2><span class="directory-count">{group.items.length+(group.children??[]).reduce((n,child)=>n+child.items.length,0)}<span class="sr-only"> entries</span></span><span class="directory-indicator" aria-hidden="true"></span></summary>
+  <div class="directory-group-content">
+    {group.children?.map(child=><details class="directory-subgroup" id={child.id}><summary><h3>{child.title}</h3><span class="directory-count">{child.items.length}<span class="sr-only"> entries</span></span><span class="directory-indicator" aria-hidden="true"></span></summary><DirectoryEntries items={child.items}/></details>)}
+    {group.items.length>0&&<DirectoryEntries items={group.items}/>}
+  </div>
+</details>)}
+</section>

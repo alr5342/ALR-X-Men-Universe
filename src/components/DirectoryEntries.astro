@@ -1,0 +1,6 @@
+---
+import type {Entity} from '../lib/universe';
+interface Props {items:Entity[]}
+const {items}=Astro.props;
+---
+<ul class="directory-entries">{items.map(entity=><li><a class="directory-entry" href={entity.url} data-entity-id={entity.id}><strong class="directory-entry-title">{entity.title}</strong>{entity.provisional&&<span class="eyebrow directory-entry-note">Provisional name</span>}<p>{entity.summary}</p></a></li>)}</ul>
