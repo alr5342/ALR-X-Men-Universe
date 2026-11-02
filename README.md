@@ -1,6 +1,6 @@
 ﻿# ALR X-Men Universe
 
-A cinematic, read-only story bible for a personal five-film X-Men saga. The V5.5 website includes film treatments organized around fifteen Blake Snyder beats, character biographies, grouped World references, creator notes, and search.
+A cinematic, read-only story bible for a personal five-film X-Men saga. The V6.2 website includes film treatments organized around fifteen Blake Snyder beats, character biographies, grouped World references, creator notes, and search.
 
 Built with Astro, TypeScript, React islands, and plain CSS. Content lives in `src/content/`, reusable views in `src/components/`, and website artwork in `public/`. Production output is static.
 
@@ -28,6 +28,8 @@ The build writes to ignored `dist/`; preview serves the production build locally
 The owner's additional `npm run verify` audit requires the private sibling file `../PROJECT_RESEARCH/BEAT_SHEET_REVIEW.md`. That research is intentionally excluded from this repository and is unnecessary for running or building the website.
 
 ## Content and repository scope
+
+Approved character palettes live in `src/design/character-palettes.json`, separate from story content. Blank accents remain null; omitted characters retain neutral styling. The file records exact workbook colors and approximations for new screenshot-only swatches. Reusable visual-identity components apply the V6.2 color system. Cyclops and Jean retain original, unfiltered artwork and Black → OG → Standard costume galleries; other characters do not receive artificial portraits. Films 1 and 3 and the X-Men faction retain their approved V6 visual treatments.
 
 Edit structured Markdown and JSON in `src/content/` through source code. Characters and World use independently expandable groups; film beats retain stable anchors and intentionally blank unsupported sections. Internal event records support existing content but do not generate public pages or search destinations.
 

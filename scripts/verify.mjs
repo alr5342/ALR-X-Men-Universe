@@ -2,8 +2,12 @@ import { readdir,readFile } from 'node:fs/promises';
 import { join } from 'node:path';
 async function walk(dir){const paths=[];for(const e of await readdir(dir,{withFileTypes:true})){const path=join(dir,e.name);paths.push(...e.isDirectory()?await walk(path):[path]);}return paths;}
 const files=await walk('dist');
+// Existing content assertions use site-local paths; production uses Astro's base.
+const {default:config}=await import('../astro.config.mjs');
+const base=(config.base??'').replace(/\/$/,'');
+const siteLocal=text=>base?text.replaceAll(`${base}/`,'/'):text;
 const pages=new Map();
-for(const file of files.filter(f=>f.endsWith('.html'))){const route='/'+file.replaceAll('\\','/').replace(/^dist\//,'').replace(/index\.html$/,'');pages.set(route,await readFile(file,'utf8'));}
+for(const file of files.filter(f=>f.endsWith('.html'))){const route='/'+file.replaceAll('\\','/').replace(/^dist\//,'').replace(/index\.html$/,'');pages.set(route,siteLocal(await readFile(file,'utf8')));}
 const errors=[];
 for(const [route,html] of pages){for(const match of html.matchAll(/href="(\/[^"\s]*)"/g)){
  const target=match[1];const [path,hash]=target.split('#');const clean=path.split('?')[0];
@@ -117,7 +121,7 @@ for(let film=1;film<=5;film++){
 }
 if(/ribbon-detail|saga-selection|<button[^>]*class="film-stop/.test(saga))errors.push('Saga still uses an intermediate film selection');
 if([...saga.matchAll(/class="film-stop" href="\/projects\//g)].length!==5)errors.push('Expected five directly linked film ribbon cards');
-const search=JSON.parse(await readFile('dist/search.json','utf8'));
+const search=JSON.parse(siteLocal(await readFile('dist/search.json','utf8')));
 if(search.some(e=>e.kind==='event'||e.url.startsWith('/events/')))errors.push('Removed event destinations remain in search');
 for(const [route,html] of pages){if(!/^\/(characters|factions|locations|lore|projects|world)\/[^/]+\/$/.test(route))continue;
  if(!search.some(e=>e.url===route))errors.push(`Search missing ${route}`);

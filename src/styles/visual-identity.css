@@ -1,0 +1,121 @@
+/* V6.2: every rule is opt-in; unassigned characters retain neutral styling. */
+.v6-page{--identity-readable:color-mix(in srgb,var(--identity-secondary) 65%,var(--paper));--identity-rule:color-mix(in srgb,var(--identity-primary) 60%,var(--line))}
+.v6-page .entity-hero{background:radial-gradient(ellipse at 90% 20%,color-mix(in srgb,var(--identity-primary) 28%,var(--ink)),transparent 64%),var(--ink);border-bottom:1px solid var(--identity-rule)}
+.v6-page .entity-hero .hero-copy{min-width:0}
+.v6-page .entity-hero .hero-copy>.eyebrow{color:var(--identity-readable)}
+.v6-page .entity-hero .hero-deck{color:color-mix(in srgb,var(--paper) 83%,var(--muted))}
+.v6-page .entity-hero h1{letter-spacing:-.035em;line-height:.94;margin-bottom:30px}
+.v6-page .entity-hero .back-link{margin-bottom:46px}
+
+/* Portrait plates sit beside, never beneath, the introductory information. */
+.v6-portrait .entity-hero,.v6-emblem .entity-hero{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,.85fr);gap:clamp(28px,4vw,65px);padding-top:46px;padding-bottom:46px;min-height:790px}
+.v6-portrait .entity-hero .hero-copy,.v6-emblem .entity-hero .hero-copy{grid-column:1;grid-row:1;width:100%;max-width:620px}
+.v6-portrait .entity-hero h1{font-size:clamp(78px,8.5vw,132px)}
+.v6-page .identity-art{grid-column:2;grid-row:1;position:relative;margin:0;min-width:0;align-self:center;z-index:1}
+.v6-page .identity-art-frame{position:relative;background:#000;border:1px solid var(--identity-rule);border-bottom:3px solid var(--identity-secondary);padding:12px;box-shadow:20px 22px 0 -21px var(--identity-secondary),0 25px 70px #0004}
+.v6-page .identity-art-frame::before{content:'';position:absolute;left:-7px;top:18px;width:12px;height:46px;background:var(--identity-primary);border:1px solid color-mix(in srgb,var(--identity-primary) 60%,var(--paper))}
+.v6-page .identity-art img{display:block;width:100%;height:620px;object-fit:contain;object-position:center;filter:none;opacity:1;transform:none}
+.v6-page .identity-art figcaption{display:flex;justify-content:space-between;align-items:center;gap:20px;padding:18px 0 0;line-height:1.5;font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+.v6-page .identity-art figcaption strong{font-weight:500;color:var(--identity-readable)}
+.v6-page .identity-emblem .identity-art-frame{background:transparent;border-bottom-color:var(--identity-primary);padding:36px}
+.v6-page .identity-emblem img{height:440px}
+.v6-emblem .entity-hero{min-height:700px}
+.v6-emblem #biography{border-top:2px solid var(--identity-primary)}
+
+/* A typographic composition for characters who have no portrait. */
+.v6-editorial .entity-hero{min-height:540px;padding-top:82px;padding-bottom:82px}
+.v6-editorial .entity-hero .hero-copy{width:76%;max-width:950px}
+.v6-editorial .entity-hero h1{font-size:clamp(90px,11vw,165px);max-width:12ch}
+.v6-page .identity-geometry{position:absolute;right:var(--pad);top:15%;bottom:15%;width:27%;pointer-events:none;display:flex;align-items:center;justify-content:flex-end;gap:24px;opacity:.65;z-index:-1}
+.v6-page .identity-geometry i{display:block;height:100%;width:1px;background:var(--identity-secondary)}
+.v6-page .identity-geometry i:first-child{height:55%;width:12px;background:var(--identity-primary);border:1px solid var(--identity-rule)}
+.v6-page .identity-geometry i:last-child{height:78%;width:4px;background:var(--identity-accent,var(--identity-secondary))}
+.v6-character .bio-facts{border-top:2px solid var(--identity-secondary)}
+.v6-character #timeline{border-top:1px solid var(--identity-rule);background:linear-gradient(90deg,color-mix(in srgb,var(--identity-primary) 8%,transparent),transparent 65%)}
+.v6-character #timeline .story-label .eyebrow,.v6-character .folio-heading .eyebrow{color:var(--identity-readable)}
+.v6-character #timeline .chapter-number{color:color-mix(in srgb,var(--identity-primary) 60%,var(--muted))}
+.v6-character #timeline .narrative-section{border-left:1px solid var(--identity-rule);padding-left:24px}
+.v6-character .on-this-page{border-bottom-color:var(--identity-rule)}
+
+/* A production folio: full bodies and original colors, without film claims. */
+.v6-page .costume-gallery{border-top:1px solid var(--identity-rule);background:linear-gradient(180deg,color-mix(in srgb,var(--identity-primary) 9%,var(--ink)),var(--ink))}
+.v6-page .folio-heading{display:flex;justify-content:space-between;align-items:flex-end;gap:30px;margin-bottom:40px}
+.v6-page .folio-heading h2{margin:0;font-size:clamp(42px,5vw,70px)}
+.v6-page .folio-count{font-family:var(--display);font-size:30px;letter-spacing:.07em;color:var(--identity-readable);white-space:nowrap}
+.v6-page .costume-plates{list-style:none;padding:0;margin:0;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:22px}
+.v6-page .costume-plates li{min-width:0}
+.v6-page .costume-plates figure{margin:0}
+.v6-page .costume-art-link{display:block;position:relative;background:#000;border:1px solid var(--identity-rule);border-top:3px solid var(--identity-secondary);padding:18px;transition:border-color .16s ease}
+.v6-page .costume-art-link:hover{border-color:var(--identity-secondary)}
+.v6-page .costume-art-link img{display:block;width:100%;height:auto;aspect-ratio:3/4;object-fit:contain;filter:none;opacity:1;transform:none}
+.v6-page .costume-plates figcaption{display:flex;align-items:baseline;gap:16px;padding:20px 0;border-bottom:1px solid var(--identity-rule)}
+.v6-page .costume-number{font-size:11px;color:var(--identity-readable);font-variant-numeric:tabular-nums}
+.v6-page .costume-plates h3{font-size:28px;margin:0}
+.v6-page .costume-enlarge{margin-left:auto;font-size:10px;color:var(--muted)}
+
+/* Film identity extends through the treatment while prose stays quiet. */
+.v6-film{--film-color:var(--identity-primary)}
+.v6-film .entity-hero{background:linear-gradient(100deg,var(--ink) 20%,color-mix(in srgb,var(--identity-primary) 24%,var(--ink)))}
+.v6-film .entity-hero .hero-art img{filter:none;opacity:.85;transform:none}
+.v6-film .film-premise{border-top:3px solid var(--identity-primary)}
+.v6-film .film-premise .eyebrow{color:color-mix(in srgb,var(--identity-primary) 45%,var(--paper))}
+.v6-film .film-act{position:relative;border-top-color:var(--identity-rule);background:linear-gradient(115deg,color-mix(in srgb,var(--identity-primary) 9%,transparent),transparent 55%)}
+.v6-film .act-index{display:block;font-family:var(--display);font-size:170px;font-weight:600;line-height:.9;letter-spacing:-.04em;color:transparent;-webkit-text-stroke:1px color-mix(in srgb,var(--identity-primary) 65%,var(--line));margin-bottom:30px}
+.v6-film .act-heading .eyebrow{font-size:10px;color:var(--identity-readable)}
+.v6-film .beat-label{color:color-mix(in srgb,var(--identity-primary) 45%,var(--paper));font-variant-numeric:tabular-nums}
+.v6-film .story-beat{border-top-color:color-mix(in srgb,var(--identity-primary) 24%,var(--line))}
+.v6-film .story-beat h3{font-size:clamp(31px,3.2vw,44px);max-width:30ch}
+.v6-film .story-beat.intentionally-empty h3{font-size:30px}
+.v6-visor .entity-hero::before{content:'';position:absolute;bottom:0;left:0;width:100%;height:5px;background:linear-gradient(90deg,var(--identity-primary),var(--identity-primary) 35%,transparent 85%)}
+.v6-visor .act-heading::after{content:'';display:block;width:85%;height:4px;background:var(--identity-primary);margin-top:32px}
+.v6-visor .beat-label{display:flex;align-items:center;gap:16px}
+.v6-visor .beat-label::before{content:'';display:block;width:36px;height:3px;flex-shrink:0;background:var(--identity-primary)}
+.v6-visor #act-ii{background:linear-gradient(115deg,color-mix(in srgb,var(--identity-primary) 15%,transparent),transparent 60%)}
+.v6-visor #act-iii{background:linear-gradient(180deg,color-mix(in srgb,var(--identity-primary) 8%,transparent),transparent 50%)}
+.v6-broadcast .entity-hero::before{content:'';position:absolute;inset:24px;border:1px solid color-mix(in srgb,var(--identity-primary) 45%,transparent);border-left:0;pointer-events:none}
+.v6-broadcast .act-heading h2{background:var(--identity-primary);color:#161616;font-size:38px;padding:15px 18px;display:inline-block;line-height:1.05;margin-bottom:0}
+.v6-broadcast .act-heading .eyebrow{border-top:1px solid var(--identity-primary);padding-top:17px}
+.v6-broadcast .act-index{color:var(--identity-primary);-webkit-text-stroke:0}
+.v6-broadcast .beat-prose{border-left:1px solid color-mix(in srgb,var(--identity-primary) 50%,transparent);padding-left:32px;position:relative}
+.v6-broadcast .beat-prose::before{content:'';position:absolute;top:0;left:-1px;width:36px;height:14px;border-top:3px solid var(--identity-primary);border-left:3px solid var(--identity-primary)}
+.v6-broadcast .beat-label{letter-spacing:.2em}
+
+@media(max-width:1000px){
+  .v6-portrait .entity-hero,.v6-emblem .entity-hero{grid-template-columns:minmax(0,1fr) minmax(0,.8fr);gap:30px;min-height:700px}
+  .v6-portrait .entity-hero h1{font-size:84px}
+  .v6-page .identity-art img{height:490px}
+  .v6-page .identity-emblem img{height:340px}
+  .v6-page .costume-plates{gap:14px}
+  .v6-page .costume-art-link{padding:10px}
+  .v6-page .costume-enlarge{font-size:9px}
+}
+@media(max-width:650px){
+  .v6-portrait .entity-hero,.v6-emblem .entity-hero{display:flex;flex-direction:column;gap:32px;align-items:stretch;padding-top:48px;padding-bottom:38px;min-height:0}
+  .v6-portrait .entity-hero .hero-copy,.v6-emblem .entity-hero .hero-copy{order:0;width:100%}
+  .v6-portrait .entity-hero h1{font-size:80px}
+  .v6-page .entity-hero .back-link{margin-bottom:32px}
+  .v6-page .identity-art{order:1;width:100%;max-width:440px;align-self:center}
+  .v6-page .identity-art img{height:460px}
+  .v6-page .identity-emblem img{height:280px}
+  .v6-editorial .entity-hero{min-height:440px;padding-top:60px;padding-bottom:65px}
+  .v6-editorial .entity-hero .hero-copy{width:100%}
+  .v6-editorial .entity-hero h1{font-size:clamp(78px,20vw,120px)}
+  .v6-page .identity-geometry{right:24px;width:20%;opacity:.22;gap:13px}
+  .v6-character #timeline .narrative-section{padding-left:17px}
+  .v6-page .folio-heading{align-items:center;gap:15px}
+  .v6-page .folio-count{font-size:21px}
+  .v6-page .costume-plates{grid-template-columns:1fr;gap:34px;max-width:440px;margin-inline:auto}
+  .v6-page .costume-art-link{padding:16px}
+  .v6-page .costume-art-link img{height:460px;aspect-ratio:auto}
+  .v6-page .costume-enlarge{font-size:10px}
+  .v6-film .act-heading{display:grid;grid-template-columns:90px minmax(0,1fr);column-gap:20px;align-items:center;margin-bottom:36px}
+  .v6-film .act-index{grid-row:1/3;margin:0;font-size:96px;align-self:center}
+  .v6-film .act-heading .eyebrow{margin:0 0 12px}
+  .v6-film .act-heading h2{font-size:32px;margin:0}
+  .v6-visor .act-heading::after{grid-column:2;margin-top:22px;width:100%}
+  .v6-broadcast .act-heading h2{padding:12px}
+  .v6-broadcast .act-heading .eyebrow{padding-top:12px}
+  .v6-broadcast .beat-prose{padding-left:20px}
+  .v6-broadcast .entity-hero::before{inset:14px}
+}
+@media(prefers-reduced-motion:reduce){.v6-page .costume-art-link{transition:none}}

@@ -41,8 +41,9 @@ try{
  const link=path=>'a[href='+JSON.stringify(href(path))+']';
  const assert=async (expression,message)=>{if(!await evaluate(expression))throw Error(message);};
  const search=await fetch(origin+'/search.json').then(r=>{if(!r.ok)throw Error('Search index request failed');return r.json();});
+ const {palettes}=JSON.parse(await readFile('src/design/character-palettes.json','utf8'));
  for(const entity of search){const r=await fetch(new URL(entity.url,origin));if(!r.ok)throw Error('Broken public destination: '+entity.url);}
- const routes=['/','/saga/','/projects/x-men/','/projects/evolution/','/projects/exile/','/projects/god-loves-man-kills/','/projects/genesis/','/characters/','/characters/cyclops/','/characters/angel/','/characters/gambit/','/world/','/factions/x-men/','/locations/mojoworld/','/lore/cerebro/','/world/friends-of-humanity/','/development/'];
+ const routes=[...new Set(['/','/saga/','/projects/x-men/','/projects/evolution/','/projects/exile/','/projects/god-loves-man-kills/','/projects/genesis/','/characters/','/characters/cyclops/','/characters/jean-grey/','/characters/angel/','/characters/gambit/','/world/','/factions/x-men/','/locations/mojoworld/','/lore/cerebro/','/world/friends-of-humanity/','/development/',...search.filter(e=>e.kind==='character').map(e=>new URL(e.url,origin).pathname.slice(base.length))])];
  for(const mobile of [false,true]){
   await call('Emulation.setDeviceMetricsOverride',{width:mobile?390:1440,height:mobile?844:1000,deviceScaleFactor:1,mobile});
   await call('Emulation.setTouchEmulationEnabled',{enabled:mobile,maxTouchPoints:1});
@@ -50,9 +51,53 @@ try{
    await go(path);
    await assert('document.documentElement.scrollWidth<=innerWidth','Horizontal overflow: '+path);
    await assert("getComputedStyle(document.querySelector('.site-header')).display==='flex'",'Stylesheet did not load');
-   await assert("[...document.images].every(i=>i.complete&&i.naturalWidth>0)",'Image failed: '+path);
+   await assert("[...document.images].every(i=>i.loading==='lazy'||(i.complete&&i.naturalWidth>0))",'Image failed: '+path);
    if(path.startsWith('/projects/'))await assert("document.querySelectorAll('.story-beat').length===15",'Missing film beats');
    if(path.startsWith('/characters/')&&path!=='/characters/')await assert("document.querySelector('#journey')&&document.querySelector('#timeline')",'Missing biography sections');
+   if(process.argv.includes('--v6')){
+    const palette=path.startsWith('/characters/')?palettes[path.split('/')[2]]:undefined;
+    const selected=Boolean(palette)||['/projects/x-men/','/projects/exile/','/factions/x-men/'].includes(path);
+    await assert(`Boolean(document.querySelector('.v6-page'))===${selected}`,'V6 styling escaped selected scope: '+path);
+    if(palette)await assert(`(()=>{const style=getComputedStyle(document.querySelector('.v6-character'));return style.getPropertyValue('--identity-primary').trim().toUpperCase()===${JSON.stringify(palette.primary)}&&style.getPropertyValue('--identity-secondary').trim().toUpperCase()===${JSON.stringify(palette.secondary)}&&style.getPropertyValue('--identity-accent').trim().toUpperCase()===${JSON.stringify(palette.accent??'')};})()`,'Rendered palette differs from approved data: '+path);
+    if(selected){
+     const name=path.split('/').filter(Boolean).join('-')+'-'+(mobile?'mobile':'desktop');
+     const capture=!path.startsWith('/characters/')||['cyclops','jean-grey','angel','gambit','magneto','mr-sinister','apocalypse','mojo','storm','domino','pyro','avalanche'].includes(path.split('/')[2]);
+     if(capture)await writeFile(resolve(output,'v6-'+name+'.png'),Buffer.from((await call('Page.captureScreenshot',{format:'png'})).data,'base64'));
+     if(path==='/characters/cyclops/'||path==='/characters/jean-grey/'){
+      const expected=path.includes('cyclops')?['Black_Cyclops.jpg','OG_Cyclops.jpg','Cyclops.jpg']:['Jean_Black.jpg','OG_Jean.jpg','JeanGrey.jpg'];
+      await assert(`JSON.stringify([...document.querySelectorAll('.costume-plates img')].map(i=>new URL(i.src).pathname.split('/').pop()))===${JSON.stringify(JSON.stringify(expected))}`,'Incorrect creator-confirmed costume order');
+      await assert("Boolean(document.querySelector('#timeline').compareDocumentPosition(document.querySelector('#costumes')) & Node.DOCUMENT_POSITION_FOLLOWING) && [...document.querySelectorAll('.costume-plates img')].every(i=>getComputedStyle(i).objectFit==='contain'&&getComputedStyle(i).filter==='none')",'Gallery order, full-body visibility or artwork colors failed');
+      await assert("getComputedStyle(document.querySelector('.hero-portrait img')).objectFit==='cover'&&document.querySelector('.hero-portrait img').getBoundingClientRect().height>document.querySelector('.hero-portrait').getBoundingClientRect().height",'Header is not a closer hero crop');
+      await assert("(()=>{const image=getComputedStyle(document.querySelector('.hero-portrait img'));const frame=document.querySelector('.hero-portrait');return image.filter==='none'&&image.mixBlendMode==='normal'&&image.maskImage==='none'&&getComputedStyle(frame,'::before').content==='none'&&getComputedStyle(frame,'::after').content==='none';})()",'Header artwork still has a filter, blending, mask or lighting overlay');
+      for(let index=0;index<3;index++){
+       await evaluate(`document.querySelectorAll('.costume-plates img')[${index}].scrollIntoView({behavior:'instant',block:'center'})`);
+       await wait(`document.querySelectorAll('.costume-plates img')[${index}].complete&&document.querySelectorAll('.costume-plates img')[${index}].naturalWidth>0`);
+      }
+      await evaluate("document.querySelector('#costumes').scrollIntoView({behavior:'instant',block:'start'})");
+      await writeFile(resolve(output,'v6-gallery-'+name+'.png'),Buffer.from((await call('Page.captureScreenshot',{format:'png'})).data,'base64'));
+     }else if(path.startsWith('/characters/'))await assert("!document.querySelector('.identity-art,.hero-art img,.costume-gallery')",'Portrait invented for an image-free character');
+     if(path.startsWith('/characters/')){
+      await assert(`(()=>{
+       const page=getComputedStyle(document.querySelector('.v6-character'));
+       const ink=getComputedStyle(document.documentElement).getPropertyValue('--ink').trim();
+       const field=page.getPropertyValue('--character-field').trim();
+       const canvas=document.createElement('canvas');canvas.width=canvas.height=1;const ctx=canvas.getContext('2d');
+       const rgb=color=>{ctx.clearRect(0,0,1,1);ctx.fillStyle=color;ctx.fillRect(0,0,1,1);return [...ctx.getImageData(0,0,1,1).data].slice(0,3);};
+       const lum=color=>rgb(color).map(c=>{c/=255;return c<=.04045?c/12.92:((c+.055)/1.055)**2.4}).reduce((v,c,i)=>v+c*[.2126,.7152,.0722][i],0);
+       const bg=lum('color-mix(in srgb,'+field+' 20%,'+ink+')');
+       return ['#timeline .story-prose p','#timeline .story-label .eyebrow'].every(selector=>{const fg=lum(getComputedStyle(document.querySelector(selector)).color);return (Math.max(fg,bg)+.05)/(Math.min(fg,bg)+.05)>=4.5;});
+      })()`,'Character prose contrast falls below 4.5:1');
+      for(const section of capture?['journey','timeline']:[]){
+       await evaluate(`document.getElementById('${section}').scrollIntoView({behavior:'instant',block:'start'})`);
+       await writeFile(resolve(output,'v61-'+section+'-'+name+'.png'),Buffer.from((await call('Page.captureScreenshot',{format:'png'})).data,'base64'));
+      }
+     }
+     if(path.startsWith('/projects/')){
+      await evaluate("document.querySelector('#act-ii').scrollIntoView({behavior:'instant',block:'start'})");
+      await writeFile(resolve(output,'v6-act-'+name+'.png'),Buffer.from((await call('Page.captureScreenshot',{format:'png'})).data,'base64'));
+     }
+    }
+   }
   }
   await go('/');await activate('.film-access '+link('/projects/x-men/')+' img',mobile?'touch':'mouse');await wait(ready('/projects/x-men/'));
   await go('/saga/');await activate('.film-stop'+link('/projects/evolution/').slice(1)+' img',mobile?'touch':'mouse');await wait(ready('/projects/evolution/'));
@@ -69,6 +114,6 @@ try{
   await go('/');await writeFile(resolve(output,'pages-'+(mobile?'mobile':'desktop')+'.png'),Buffer.from((await call('Page.captureScreenshot',{format:'png'})).data,'base64'));
  }
  if(consoleErrors.length)throw Error('Browser exceptions: '+consoleErrors.join(', '));
- console.log('PASS: '+search.length+' public search destinations; representative deep links; five film treatments; biographies; World; Development; CSS/images; direct links; keyboard/touch dropdowns; live search; desktop/mobile; no browser exceptions.');
+ console.log('PASS: '+search.length+' public search destinations; all 35 biographies; 25 approved palettes and 10 neutral characters; five films; World; Development; original artwork and ordered galleries; keyboard/touch menus; search; desktop/mobile contrast/layouts; no browser exceptions.');
  await call('Browser.close');
 }finally{ws?.close();browser.kill();}

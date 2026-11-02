@@ -1,0 +1,10 @@
+---
+import {withBase} from '../lib/paths';
+import type {ConceptArt} from '../lib/visual-identity';
+interface Props {art:ConceptArt;emblem?:boolean}
+const {art,emblem=false}=Astro.props;
+---
+<figure class:list={['identity-art',{'identity-emblem':emblem}]}>
+  <div class:list={['identity-art-frame',{'hero-portrait':!emblem}]}><img src={withBase(art.file)} alt={art.alt} width={art.width} height={art.height} loading="eager" decoding="async" fetchpriority="high"/></div>
+  <figcaption><span>{emblem?'Team emblem':'Character concept'}</span><strong>{art.label}</strong></figcaption>
+</figure>

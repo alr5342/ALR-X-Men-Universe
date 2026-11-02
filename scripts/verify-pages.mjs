@@ -33,5 +33,21 @@ for(const [i,slug] of films.entries()){
 const search=JSON.parse(await readFile('dist/search.json','utf8'));
 for(const entity of search)if(!pages.has(new URL(entity.url,origin).pathname)||!entity.url.startsWith(base))throw Error(`Invalid search destination: ${entity.url}`);
 if(pages.size!==65||search.filter(e=>e.kind==='character').length!==35)throw Error('Unexpected page/character coverage');
+const {palettes}=JSON.parse(await readFile('src/design/character-palettes.json','utf8'));
+let assigned=0,neutral=0;
+for(const character of search.filter(e=>e.kind==='character')){
+  const slug=character.url.split('/').filter(Boolean).at(-1),palette=palettes[slug];
+  const html=pages.get(new URL(character.url,origin).pathname)??'';
+  const main=html.match(/<main\b[^>]*>/)?.[0]??'';
+  if(palette){
+    assigned++;
+    if(!main.includes('v6-character')||!main.includes(`--identity-primary:${palette.primary};`)||!main.includes(`--identity-secondary:${palette.secondary};`))throw Error(`Approved palette missing: ${slug}`);
+    if(palette.accent?!main.includes(`--identity-accent:${palette.accent};`):main.includes('--identity-accent:'))throw Error(`Blank or assigned accent mismatch: ${slug}`);
+  }else{
+    neutral++;
+    if(/v6-character|--identity-primary:|--identity-secondary:|--identity-accent:/.test(main))throw Error(`Unapproved palette on neutral character: ${slug}`);
+  }
+}
+if(assigned!==25||neutral!==10)throw Error('Expected 25 approved character palettes and 10 neutral characters');
 if([...pages.keys()].some(p=>p.includes('/events/')))throw Error('Retired event routes generated');
-console.log(`PASS: ${pages.size} pages; ${links} prefixed links/assets/anchors; five films with fifteen beats; ${search.length} search destinations.`);
+console.log(`PASS: ${pages.size} pages; ${links} prefixed links/assets/anchors; five films with fifteen beats; ${search.length} search destinations; ${assigned} approved palettes and ${neutral} neutral characters.`);

@@ -1,0 +1,106 @@
+/* V6.2: restrained color midpoint, scoped to characters with approved palettes.
+   Source art and the full-body costume-gallery rules are deliberately untouched. */
+.v6-character{--character-field:var(--identity-primary)}
+.v6-character .entity-hero{
+  background:
+    radial-gradient(ellipse at 95% 10%,color-mix(in srgb,var(--identity-secondary) 12%,transparent),transparent 55%),
+    linear-gradient(110deg,var(--ink) 8%,color-mix(in srgb,var(--identity-primary) 28%,var(--ink)) 60%,color-mix(in srgb,var(--identity-primary) 48%,var(--ink)));
+  border-bottom:3px solid var(--identity-secondary);
+}
+.v6-character .entity-hero .hero-copy{position:relative;z-index:3}
+.v6-character .entity-hero .hero-copy>.eyebrow{color:color-mix(in srgb,var(--identity-secondary) 45%,var(--paper))}
+.v6-character .entity-hero .hero-meta{color:var(--paper)}
+.v6-character .entity-hero .back-link{color:#d1cbd5}
+.v6-character .entity-hero .hero-deck{color:var(--paper)}
+
+/* Preserve the approved header crop and placement using unaltered source art.
+   No grading, blending, fading or lighting overlays are applied to the image. */
+.v6-character.v6-portrait .entity-hero{grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:clamp(28px,3vw,48px);min-height:760px;padding-top:50px;padding-bottom:45px}
+.v6-character .identity-art{isolation:isolate}
+.v6-character .identity-art .hero-portrait{
+  height:610px;padding:0;overflow:hidden;isolation:isolate;border:0;
+  clip-path:polygon(9% 0,100% 0,100% 91%,91% 100%,0 100%,0 9%);
+  background:
+    repeating-linear-gradient(124deg,transparent 0 65px,color-mix(in srgb,var(--identity-secondary) 16%,transparent) 66px 67px,transparent 68px 110px),
+    radial-gradient(ellipse at 75% 30%,color-mix(in srgb,var(--identity-secondary) 25%,var(--identity-primary)),transparent 60%),
+    linear-gradient(140deg,color-mix(in srgb,var(--identity-primary) 60%,#000),#080a10 90%);
+  box-shadow:none;
+}
+.v6-character .identity-art .hero-portrait img{
+  position:absolute;inset:0;display:block;width:100%;height:100%;max-width:none;
+  object-fit:cover;object-position:50% 0%;
+  transform:scale(1.72) rotate(-4deg);transform-origin:50% 0%;
+  mix-blend-mode:normal;filter:none;
+  mask-image:none;
+}
+.v6-character .identity-art .hero-portrait::before,
+.v6-character .identity-art .hero-portrait::after{
+  content:none;
+}
+.v6-character .identity-art figcaption{padding-top:20px;border-bottom:1px solid color-mix(in srgb,var(--identity-secondary) 40%,transparent);padding-bottom:12px;color:var(--paper)}
+.v6-character .identity-art figcaption strong{color:color-mix(in srgb,var(--identity-secondary) 45%,var(--paper))}
+
+/* No-portrait pages use broad tonal architecture rather than empty image slots. */
+.v6-character.v6-editorial .entity-hero{
+  background:
+    linear-gradient(108deg,transparent 66%,color-mix(in srgb,var(--identity-accent,var(--identity-secondary)) 12%,transparent) 66.1% 70%,transparent 70.1%),
+    radial-gradient(ellipse at 100% 15%,color-mix(in srgb,var(--identity-secondary) 24%,var(--ink)),transparent 74%),
+    linear-gradient(115deg,var(--ink),color-mix(in srgb,var(--identity-primary) 42%,var(--ink)));
+}
+.v6-character.v6-editorial .entity-hero::after{opacity:.1}
+.v6-character .identity-geometry{right:7%;width:30%;opacity:.75;gap:28px}
+.v6-character .identity-geometry i:first-child{width:24px;background:var(--identity-primary);border-color:var(--identity-secondary)}
+.v6-character .identity-geometry i:last-child{width:8px;background:var(--identity-accent,var(--identity-secondary))}
+
+/* Secondary-colored information band; neutral foregrounds retain contrast. */
+.v6-character .bio-facts{
+  background:linear-gradient(100deg,color-mix(in srgb,var(--character-field) 13%,var(--ink)),color-mix(in srgb,var(--identity-secondary) 6%,var(--ink)));
+  border-top:0;border-bottom:1px solid color-mix(in srgb,var(--identity-secondary) 65%,var(--line));
+}
+.v6-character .bio-facts dt{color:color-mix(in srgb,var(--identity-secondary) 40%,var(--paper))}
+.v6-character .bio-facts dd{color:var(--paper)}
+.v6-character .on-this-page{border-bottom:2px solid var(--character-field)}
+.v6-character #journey{
+  border-top:1px solid color-mix(in srgb,var(--identity-secondary) 55%,var(--line));
+  background:linear-gradient(135deg,color-mix(in srgb,var(--character-field) 12%,var(--ink)),var(--ink) 82%);
+}
+.v6-character #journey>.eyebrow{color:color-mix(in srgb,var(--identity-secondary) 45%,var(--paper))}
+.v6-character #journey h2{border-left:4px solid var(--identity-secondary);padding-left:24px}
+.v6-character #journey li{background:linear-gradient(90deg,color-mix(in srgb,var(--character-field) 8%,var(--ink)),transparent);border-top-color:color-mix(in srgb,var(--identity-secondary) 25%,var(--line));padding-right:24px}
+.v6-character #journey li:nth-child(even){background:linear-gradient(90deg,color-mix(in srgb,var(--identity-secondary) 4%,var(--ink)),transparent)}
+.v6-character #journey .journey-film{color:var(--paper)}
+.v6-character #journey p{color:#c9c5ce}
+.v6-character #timeline{
+  border-top:2px solid var(--character-field);
+  background:linear-gradient(90deg,color-mix(in srgb,var(--character-field) 20%,var(--ink)),var(--ink) 85%);
+}
+.v6-character #timeline .story-label{border-top:3px solid var(--identity-secondary);padding-top:24px}
+.v6-character #timeline .story-label .eyebrow{color:color-mix(in srgb,var(--identity-secondary) 30%,var(--paper))}
+.v6-character #timeline .story-prose>h2{border-bottom:1px solid color-mix(in srgb,var(--identity-secondary) 60%,var(--line));padding-bottom:26px}
+.v6-character #timeline .narrative-section:not(.intentionally-empty){
+  border-left:3px solid var(--character-field);border-top-color:color-mix(in srgb,var(--identity-secondary) 35%,var(--line));
+  padding:28px 28px 10px;
+  background:linear-gradient(110deg,color-mix(in srgb,var(--character-field) 7%,var(--ink)),color-mix(in srgb,var(--identity-secondary) 3%,var(--ink)));
+}
+.v6-character #timeline .story-prose p{color:#c9c5ce}
+.v6-character #affiliations{border-top:1px solid var(--identity-secondary);background:linear-gradient(125deg,color-mix(in srgb,var(--character-field) 10%,var(--ink)),var(--ink))}
+
+@media(max-width:1000px){
+  .v6-character.v6-portrait .entity-hero{grid-template-columns:minmax(0,1fr) minmax(0,.9fr);min-height:690px}
+  .v6-character .identity-art .hero-portrait{height:530px}
+  .v6-character .identity-art .hero-portrait img{transform:scale(1.65) rotate(-3deg)}
+}
+@media(max-width:650px){
+  .v6-character.v6-portrait .entity-hero{display:flex;gap:34px;min-height:0;padding-top:48px;padding-bottom:36px}
+  .v6-character .identity-art{max-width:440px;width:100%}
+  .v6-character .identity-art .hero-portrait{height:430px}
+  .v6-character .identity-art .hero-portrait img{transform:scale(1.65) rotate(-3deg);transform-origin:50% 0%}
+  .v6-character.v6-editorial .entity-hero{background:radial-gradient(ellipse at 100% 20%,color-mix(in srgb,var(--identity-secondary) 16%,var(--ink)),transparent 75%),linear-gradient(115deg,var(--ink),color-mix(in srgb,var(--identity-primary) 36%,var(--ink)))}
+  .v6-character .identity-geometry{opacity:.28;right:24px;width:20%;gap:14px}
+  .v6-character .identity-geometry i:first-child{width:15px}
+  .v6-character .identity-geometry i:last-child{width:5px}
+  .v6-character #journey h2{padding-left:18px;border-left-width:4px}
+  .v6-character #journey li{padding-right:18px}
+  .v6-character #timeline .story-label{padding-top:18px;margin-bottom:30px}
+  .v6-character #timeline .narrative-section:not(.intentionally-empty){padding:24px 18px 8px}
+}

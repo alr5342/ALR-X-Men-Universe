@@ -1,0 +1,15 @@
+---
+import {withBase} from '../lib/paths';
+import type {ConceptArt} from '../lib/visual-identity';
+interface Props {costumes:ConceptArt[]}
+const {costumes}=Astro.props;
+---
+<section class="section costume-gallery" id="costumes" aria-labelledby="costumes-title">
+  <header class="folio-heading"><div><p class="eyebrow">Character design / Chronological order</p><h2 id="costumes-title">Costume concepts</h2></div><span class="folio-count" aria-hidden="true">01 — 03</span></header>
+  <ol class="costume-plates">{costumes.map((art,index)=><li><figure>
+    <a class="costume-art-link" href={withBase(art.file)} target="_blank" rel="noopener" aria-label={`Open full-size ${art.label} costume concept in a new tab`}>
+      <img src={withBase(art.file)} alt={art.alt} width={art.width} height={art.height} loading="lazy" decoding="async"/>
+    </a>
+    <figcaption><span class="costume-number">{String(index+1).padStart(2,'0')}</span><h3>{art.label}</h3><span class="costume-enlarge" aria-hidden="true">Full size ↗</span></figcaption>
+  </figure></li>)}</ol>
+</section>

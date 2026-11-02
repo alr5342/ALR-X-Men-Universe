@@ -4,8 +4,12 @@ import '../styles/global.css';
 import '../styles/v2.css';
 import '../styles/beats.css';
 import '../styles/directories.css';
+import '../styles/visual-identity.css';
+import '../styles/character-refinements.css';
+import {identityStyle,type VisualIdentity} from '../lib/visual-identity';
 import Search from '../components/interactive/Search';
-const { title='X-Men Universe', description='A five-film saga. A world of connected stories.' }=Astro.props;
+interface Props {title?:string;description?:string;visualIdentity?:VisualIdentity}
+const { title='X-Men Universe', description='A five-film saga. A world of connected stories.',visualIdentity }=Astro.props;
 const path=Astro.url.pathname;
 ---
 <!doctype html><html lang="en"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1"/><meta name="description" content={description}/><title>{title} · X-Men Universe</title><link rel="icon" href={withBase("/favicon.svg")}/></head>
@@ -13,6 +17,6 @@ const path=Astro.url.pathname;
 <header class="site-header"><a class="brand" href={withBase("/")} aria-label="X-Men Universe home"><span class="brand-mark">X</span><span>X-MEN <small>UNIVERSE</small></span></a>
 <nav aria-label="Main navigation">{['Saga','Characters','World','Development'].map(label=><a href={withBase(`/${label.toLowerCase()}/`)} aria-current={path.startsWith(withBase(`/${label.toLowerCase()}/`))?'page':undefined}>{label}</a>)}</nav>
 <div class="header-tools"><Search client:load/></div></header>
-<main id="main"><slot/></main>
+<main id="main" class={visualIdentity?`v6-page v6-${visualIdentity.kind} v6-${visualIdentity.motif}`:undefined} style={visualIdentity?identityStyle(visualIdentity):undefined}><slot/></main>
 <footer><a class="brand" href={withBase("/")}><span class="brand-mark">X</span><span>X-MEN <small>STORY BIBLE</small></span></a><p>A personal fictional universe · Full spoilers<br/><span class="muted">Five-film saga / Working titles</span></p><a href={withBase("/development/")}>Creator's notes & FAQ ↗</a></footer>
 </body></html>
