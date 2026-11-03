@@ -67,17 +67,23 @@ try{
      const capture=process.argv.includes('--uniforms')?uniformSlugs.includes(path.split('/')[2]):!path.startsWith('/characters/')||['cyclops','jean-grey','angel','gambit','magneto','mr-sinister','apocalypse','mojo','storm','domino','pyro','avalanche'].includes(path.split('/')[2]);
      if(capture)await writeFile(resolve(output,'v6-'+name+'.png'),Buffer.from((await call('Page.captureScreenshot',{format:'png'})).data,'base64'));
      if(path==='/characters/cyclops/'||path==='/characters/jean-grey/'){
-      const expected=path.includes('cyclops')?['Black_Cyclops.jpg','OG_Cyclops.jpg','Cyclops.jpg']:['Jean_Black.jpg','OG_Jean.jpg','JeanGrey.jpg'];
+      const expected=path.includes('cyclops')?['Black_Cyclops.jpg','OG_Cyclops.jpg','Cyclops.jpg']:['Jean_Black.jpg','OG_Jean.jpg','JeanGrey.jpg','jean-pestilence-uniform.webp'];
       await assert(`JSON.stringify([...document.querySelectorAll('.costume-plates img')].map(i=>new URL(i.src).pathname.split('/').pop()))===${JSON.stringify(JSON.stringify(expected))}`,'Incorrect creator-confirmed costume order');
       await assert("Boolean(document.querySelector('#timeline').compareDocumentPosition(document.querySelector('#costumes')) & Node.DOCUMENT_POSITION_FOLLOWING) && [...document.querySelectorAll('.costume-plates img')].every(i=>getComputedStyle(i).objectFit==='contain'&&getComputedStyle(i).filter==='none')",'Gallery order, full-body visibility or artwork colors failed');
       await assert("getComputedStyle(document.querySelector('.hero-portrait img')).objectFit==='cover'&&document.querySelector('.hero-portrait img').getBoundingClientRect().height>document.querySelector('.hero-portrait').getBoundingClientRect().height",'Header is not a closer hero crop');
       await assert("(()=>{const image=getComputedStyle(document.querySelector('.hero-portrait img'));const frame=document.querySelector('.hero-portrait');return image.filter==='none'&&image.mixBlendMode==='normal'&&image.maskImage==='none'&&getComputedStyle(frame,'::before').content==='none'&&getComputedStyle(frame,'::after').content==='none';})()",'Header artwork still has a filter, blending, mask or lighting overlay');
-      for(let index=0;index<3;index++){
+      for(let index=0;index<expected.length;index++){
        await evaluate(`document.querySelectorAll('.costume-plates img')[${index}].scrollIntoView({behavior:'instant',block:'center'})`);
        await wait(`document.querySelectorAll('.costume-plates img')[${index}].complete&&document.querySelectorAll('.costume-plates img')[${index}].naturalWidth>0`);
       }
       await evaluate("document.querySelector('#costumes').scrollIntoView({behavior:'instant',block:'start'})");
       await writeFile(resolve(output,'v6-gallery-'+name+'.png'),Buffer.from((await call('Page.captureScreenshot',{format:'png'})).data,'base64'));
+      if(path==='/characters/jean-grey/'){
+       if(!mobile)await assert("new Set([...document.querySelectorAll('.costume-plates li')].map(el=>Math.round(el.getBoundingClientRect().top))).size===1",'Jean costumes are not in one desktop row');
+       await assert("JSON.stringify([...document.querySelectorAll('.costume-plates h3')].map(el=>el.textContent))===JSON.stringify(['Black','OG','Standard','Horseman of Pestilence'])&&document.querySelector('.identity-art figcaption strong').textContent==='Standard'",'Jean costume labels or standard header changed');
+       await evaluate("document.querySelector('.costume-plates li:last-child').scrollIntoView({behavior:'instant',block:'center'})");
+       await writeFile(resolve(output,'jean-pestilence-gallery-'+(mobile?'mobile':'desktop')+'.png'),Buffer.from((await call('Page.captureScreenshot',{format:'png'})).data,'base64'));
+      }
      }else if(path.startsWith('/characters/')&&uniformSlugs.includes(path.split('/')[2])){
       const slug=path.split('/')[2];
       const concepts=uniformArt.artwork.find(a=>a.character.toLowerCase()===slug).costumes;

@@ -331,6 +331,33 @@
       "background": "grey converted to black",
       "backgroundPixels": 731862,
       "enclosedBackdropPockets": 2
+    },
+    {
+      "character": "Jean_Pestilence",
+      "source": "X-Men Uniforms/Jean_Pestilence.png",
+      "sourceSha256": "e3993b011ad4a2267960e0b810570d0dd875a84b9e71b1244d388a4809db06a0",
+      "sourceSize": {
+        "width": 589,
+        "height": 921
+      },
+      "gallerySize": {
+        "width": 1080,
+        "height": 1440
+      },
+      "normalization": {
+        "height": 1437,
+        "padding": {
+          "top": 2,
+          "bottom": 1,
+          "left": 80,
+          "right": 81
+        },
+        "width": 1080,
+        "canvasHeight": 1440
+      },
+      "background": "already black; preserved",
+      "backgroundPixels": 0,
+      "enclosedBackdropPockets": 0
     }
   ]
 }

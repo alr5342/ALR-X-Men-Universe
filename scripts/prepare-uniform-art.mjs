@@ -22,6 +22,7 @@ const pocketSeeds={Beast:[[460,965],[510,1200]]};
 const horsemen={
   Beast_War:{character:'Beast',label:'Horseman of War',seeds:[[475,960],[510,1210]]},
   Iceman_Famine:{character:'Iceman',label:'Horseman of Famine',seeds:[[760,300],[300,600],[500,1150]]},
+  Jean_Pestilence:{character:'Jean Grey',label:'Horseman of Pestilence',seeds:[],normalization:{height:1437,padding:{top:2,bottom:1,left:80,right:81},width:1080,canvasHeight:1440}},
 };
 const galleryCrops={Beast:{left:150,top:520,width:760,height:920},Beast_War:{left:150,top:450,width:760,height:1000}};
 await mkdir(output,{recursive:true});
@@ -34,7 +35,7 @@ for(const [name,crop] of Object.entries({...crops,...Object.fromEntries(Object.k
   const original=await readFile(source);
   const {data,info}=await sharp(original).flatten({background:'#000'}).removeAlpha().raw().toBuffer({resolveWithObject:true});
   const {width,height}=info,total=width*height;
-  const grey=Boolean(horseman)||isIceman||(data[0]===144&&data[1]===144&&data[2]===144);
+  const grey=(Boolean(horseman)&&name!=='Jean_Pestilence')||isIceman||(data[0]===144&&data[1]===144&&data[2]===144);
   let backgroundPixels=0,holes=0;
   const result=Buffer.from(data);
   if(grey){
@@ -77,9 +78,13 @@ for(const [name,crop] of Object.entries({...crops,...Object.fromEntries(Object.k
   const galleryCrop=galleryCrops[name];
   const gallery=sharp(result,raw);
   if(galleryCrop)gallery.extract(galleryCrop);
+  // Match the original Jean concepts' full-body scale and 3:4 black canvas.
+  // Entire supplied artwork remains visible; no crop, recoloring or distortion.
+  const normalization=horseman?.normalization;
+  if(normalization)gallery.resize({height:normalization.height}).extend({...normalization.padding,background:'#000'});
   await gallery.webp({lossless:true}).toFile(join(output,slug+'-uniform.webp'));
   if(crop&&name!=='Iceman_Black')await sharp(result,raw).extract(crop).webp({lossless:true}).toFile(join(output,slug+'-header.webp'));
-  records.push({character:name,source:`X-Men Uniforms/${filename}`,sourceSha256:createHash('sha256').update(original).digest('hex'),sourceSize:{width,height},gallerySize:{width:galleryCrop?.width??width,height:galleryCrop?.height??height},...(galleryCrop?{galleryCrop}:{}),background:grey?'grey converted to black':'already black; preserved',backgroundPixels,enclosedBackdropPockets:holes,...(crop?{headerCrop:crop}:{})});
+  records.push({character:name,source:`X-Men Uniforms/${filename}`,sourceSha256:createHash('sha256').update(original).digest('hex'),sourceSize:{width,height},gallerySize:normalization?{width:normalization.width,height:normalization.canvasHeight}:{width:galleryCrop?.width??width,height:galleryCrop?.height??height},...(galleryCrop?{galleryCrop}:{}),...(normalization?{normalization}:{}),background:grey?'grey converted to black':'already black; preserved',backgroundPixels,enclosedBackdropPockets:holes,...(crop?{headerCrop:crop}:{})});
 }
 const black=records.find(record=>record.character==='Iceman_Black');
 const artwork=records.filter(record=>record!==black&&!horsemen[record.character]).map(record=>({...record,costumes:[...(record.character==='Iceman'

@@ -11,7 +11,7 @@ export type VisualIdentity = {
 };
 const costume=(file:string,label:string,name:string):ConceptArt=>({file:`/images/concepts/${file}`,label,alt:`${name}, full-body ${label.toLowerCase()} costume concept`,width:1080,height:1440});
 const cyclops=[costume('Black_Cyclops.jpg','Black','Cyclops'),costume('OG_Cyclops.jpg','OG','Cyclops'),costume('Cyclops.jpg','Standard','Cyclops')];
-const jean=[costume('Jean_Black.jpg','Black','Jean Grey'),costume('OG_Jean.jpg','OG','Jean Grey'),costume('JeanGrey.jpg','Standard','Jean Grey')];
+const jean=[costume('Jean_Black.jpg','Black','Jean Grey'),costume('OG_Jean.jpg','OG','Jean Grey'),costume('JeanGrey.jpg','Standard','Jean Grey'),{file:'/images/uniforms/jean-pestilence-uniform.webp',label:'Horseman of Pestilence',alt:'Jean Grey, full-body Horseman of Pestilence costume concept',width:1080,height:1440}];
 const characterIdentities:Record<string,VisualIdentity>=Object.fromEntries(Object.entries(characterPalettes.palettes).map(([slug,palette])=>[
   `character-${slug}`,
   {kind:'character',motif:'editorial',primary:palette.primary,secondary:palette.secondary,
