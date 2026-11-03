@@ -6,7 +6,7 @@ const {costumes}=Astro.props;
 ---
 <section class="section costume-gallery" id="costumes" aria-labelledby="costumes-title">
   <header class="folio-heading"><div><p class="eyebrow">{costumes.length>1?'Character design / Chronological order':'Character design'}</p><h2 id="costumes-title">{costumes.length>1?'Costume concepts':'Costume concept'}</h2></div><span class="folio-count" aria-hidden="true">{costumes.length>1?`01 — ${String(costumes.length).padStart(2,'0')}`:'01'}</span></header>
-  <ol class="costume-plates" data-count={costumes.length===1?'1':undefined}>{costumes.map((art,index)=><li><figure>
+  <ol class="costume-plates" data-count={String(costumes.length)}>{costumes.map((art,index)=><li><figure>
     <a class="costume-art-link" href={withBase(art.file)} target="_blank" rel="noopener" aria-label={`Open full-size ${art.label} costume concept in a new tab`}>
       <img src={withBase(art.file)} alt={art.alt} width={art.width} height={art.height} loading="lazy" decoding="async"/>
     </a>

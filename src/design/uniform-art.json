@@ -4,7 +4,7 @@
     "handle": "art_by.coco",
     "contribution": "Character concept art"
   },
-  "method": "Owner-approved deterministic masking of flat grey backdrop; no generation, recoloring or filtering of character art. Header crops selected from character body landmarks.",
+  "method": "Owner-approved deterministic masking of neutral grey backdrop; no generation, recoloring or filtering of character art. Header crops selected from character body landmarks.",
   "artwork": [
     {
       "character": "Beast",
@@ -28,11 +28,19 @@
       "backgroundPixels": 1179598,
       "enclosedBackdropPockets": 2,
       "headerCrop": {
-        "left": 210,
-        "top": 520,
-        "width": 700,
-        "height": 650
-      }
+        "left": 220,
+        "top": 530,
+        "width": 620,
+        "height": 510
+      },
+      "costumes": [
+        {
+          "file": "beast-uniform.webp",
+          "label": "Uniform",
+          "width": 760,
+          "height": 920
+        }
+      ]
     },
     {
       "character": "Gambit",
@@ -50,11 +58,19 @@
       "backgroundPixels": 1051674,
       "enclosedBackdropPockets": 0,
       "headerCrop": {
-        "left": 255,
+        "left": 240,
         "top": 0,
-        "width": 610,
-        "height": 790
-      }
+        "width": 600,
+        "height": 630
+      },
+      "costumes": [
+        {
+          "file": "gambit-uniform.webp",
+          "label": "Uniform",
+          "width": 1080,
+          "height": 1440
+        }
+      ]
     },
     {
       "character": "Nightcrawler",
@@ -72,11 +88,19 @@
       "backgroundPixels": 982664,
       "enclosedBackdropPockets": 0,
       "headerCrop": {
-        "left": 200,
-        "top": 65,
-        "width": 750,
-        "height": 780
-      }
+        "left": 280,
+        "top": 75,
+        "width": 540,
+        "height": 660
+      },
+      "costumes": [
+        {
+          "file": "nightcrawler-uniform.webp",
+          "label": "Uniform",
+          "width": 1080,
+          "height": 1440
+        }
+      ]
     },
     {
       "character": "Rogue",
@@ -96,9 +120,17 @@
       "headerCrop": {
         "left": 280,
         "top": 0,
-        "width": 550,
-        "height": 800
-      }
+        "width": 560,
+        "height": 650
+      },
+      "costumes": [
+        {
+          "file": "rogue-uniform.webp",
+          "label": "Uniform",
+          "width": 1080,
+          "height": 1440
+        }
+      ]
     },
     {
       "character": "Shadowcat",
@@ -116,11 +148,19 @@
       "backgroundPixels": 1287311,
       "enclosedBackdropPockets": 2,
       "headerCrop": {
-        "left": 320,
-        "top": 60,
-        "width": 460,
-        "height": 800
-      }
+        "left": 260,
+        "top": 80,
+        "width": 600,
+        "height": 600
+      },
+      "costumes": [
+        {
+          "file": "shadowcat-uniform.webp",
+          "label": "Uniform",
+          "width": 1080,
+          "height": 1440
+        }
+      ]
     },
     {
       "character": "Storm",
@@ -138,11 +178,19 @@
       "backgroundPixels": 0,
       "enclosedBackdropPockets": 0,
       "headerCrop": {
-        "left": 270,
-        "top": 10,
-        "width": 650,
-        "height": 850
-      }
+        "left": 300,
+        "top": 20,
+        "width": 520,
+        "height": 630
+      },
+      "costumes": [
+        {
+          "file": "storm-uniform.webp",
+          "label": "Uniform",
+          "width": 1080,
+          "height": 1440
+        }
+      ]
     },
     {
       "character": "Wolverine",
@@ -160,10 +208,78 @@
       "backgroundPixels": 0,
       "enclosedBackdropPockets": 0,
       "headerCrop": {
-        "left": 250,
+        "left": 260,
         "top": 90,
-        "width": 610,
-        "height": 800
+        "width": 550,
+        "height": 640
+      },
+      "costumes": [
+        {
+          "file": "wolverine-uniform.webp",
+          "label": "Uniform",
+          "width": 1080,
+          "height": 1440
+        }
+      ]
+    },
+    {
+      "character": "Iceman",
+      "source": "X-Men Uniforms/Iceman.png",
+      "sourceSha256": "97990df35aeb7c2e5239d75ae381ab3c2e812e4e58483ff686e9c1f66ef98010",
+      "sourceSize": {
+        "width": 1086,
+        "height": 1448
+      },
+      "gallerySize": {
+        "width": 1086,
+        "height": 1448
+      },
+      "background": "grey converted to black",
+      "backgroundPixels": 947241,
+      "enclosedBackdropPockets": 8,
+      "headerCrop": {
+        "left": 270,
+        "top": 20,
+        "width": 560,
+        "height": 610
+      },
+      "costumes": [
+        {
+          "file": "iceman-black-uniform.webp",
+          "label": "Black",
+          "width": 1086,
+          "height": 1448
+        },
+        {
+          "file": "iceman-uniform.webp",
+          "label": "Standard",
+          "width": 1086,
+          "height": 1448
+        }
+      ]
+    }
+  ],
+  "additionalSources": [
+    {
+      "character": "Iceman_Black",
+      "source": "X-Men Uniforms/Iceman_Black.png",
+      "sourceSha256": "06adc790e9d0aecbff616a7386d057e88a9497916f855ad06acdc679043cc384",
+      "sourceSize": {
+        "width": 1086,
+        "height": 1448
+      },
+      "gallerySize": {
+        "width": 1086,
+        "height": 1448
+      },
+      "background": "grey converted to black",
+      "backgroundPixels": 957487,
+      "enclosedBackdropPockets": 7,
+      "headerCrop": {
+        "left": 270,
+        "top": 20,
+        "width": 560,
+        "height": 610
       }
     }
   ]

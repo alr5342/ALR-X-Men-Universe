@@ -19,10 +19,11 @@ const characterIdentities:Record<string,VisualIdentity>=Object.fromEntries(Objec
     ...(palette.primary==='#161616'?{colorField:'secondary'}:{}),
   } satisfies VisualIdentity,
 ]));
-const uniformIdentities:Record<string,VisualIdentity>=Object.fromEntries(uniformArt.artwork.map(({character,gallerySize,headerCrop})=>{
+const uniformIdentities:Record<string,VisualIdentity>=Object.fromEntries(uniformArt.artwork.map(({character,costumes,headerCrop})=>{
   const slug=character.toLowerCase();
-  const art:ConceptArt={file:`/images/uniforms/${slug}-uniform.webp`,label:'Uniform',alt:`${character}, full-body character uniform concept`,...gallerySize};
-  return [`character-${slug}`,{...characterIdentities[`character-${slug}`],motif:'portrait',costumes:[art],
+  const gallery:ConceptArt[]=costumes.map(({file,label,width,height})=>({file:`/images/uniforms/${file}`,label,width,height,alt:`${character}, full-body ${label.toLowerCase()} costume concept`}));
+  const art=gallery[gallery.length-1];
+  return [`character-${slug}`,{...characterIdentities[`character-${slug}`],motif:'portrait',costumes:gallery,
     headerArt:{...art,file:`/images/uniforms/${slug}-header.webp`,width:headerCrop.width,height:headerCrop.height,preparedHeader:true,alt:`${character}, upper-body crop of the supplied uniform concept`},
   } satisfies VisualIdentity];
 }));
