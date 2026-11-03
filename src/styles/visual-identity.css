@@ -43,6 +43,7 @@
 .v6-page .folio-heading h2{margin:0;font-size:clamp(42px,5vw,70px)}
 .v6-page .folio-count{font-family:var(--display);font-size:30px;letter-spacing:.07em;color:var(--identity-readable);white-space:nowrap}
 .v6-page .costume-plates{list-style:none;padding:0;margin:0;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:22px}
+.v6-page .costume-plates[data-count="1"]{grid-template-columns:minmax(0,440px);justify-content:center}
 .v6-page .costume-plates li{min-width:0}
 .v6-page .costume-plates figure{margin:0}
 .v6-page .costume-art-link{display:block;position:relative;background:#000;border:1px solid var(--identity-rule);border-top:3px solid var(--identity-secondary);padding:18px;transition:border-color .16s ease}

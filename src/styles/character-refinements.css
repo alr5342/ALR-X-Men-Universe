@@ -33,6 +33,11 @@
   mix-blend-mode:normal;filter:none;
   mask-image:none;
 }
+/* New uniform headers are pre-cropped around actual body landmarks, not the
+   canvas midpoint. Show that reviewed crop without a second automatic zoom. */
+.v6-character .identity-art .hero-portrait.prepared-portrait img{
+  position:static;inset:auto;object-fit:contain;object-position:center;transform:none;
+}
 .v6-character .identity-art .hero-portrait::before,
 .v6-character .identity-art .hero-portrait::after{
   content:none;

@@ -42,6 +42,8 @@ try{
  const assert=async (expression,message)=>{if(!await evaluate(expression))throw Error(message);};
  const search=await fetch(origin+'/search.json').then(r=>{if(!r.ok)throw Error('Search index request failed');return r.json();});
  const {palettes}=JSON.parse(await readFile('src/design/character-palettes.json','utf8'));
+ const uniformArt=JSON.parse(await readFile('src/design/uniform-art.json','utf8'));
+ const uniformSlugs=uniformArt.artwork.map(a=>a.character.toLowerCase());
  for(const entity of search){const r=await fetch(new URL(entity.url,origin));if(!r.ok)throw Error('Broken public destination: '+entity.url);}
  const routes=[...new Set(['/','/saga/','/projects/x-men/','/projects/evolution/','/projects/exile/','/projects/god-loves-man-kills/','/projects/genesis/','/characters/','/characters/cyclops/','/characters/jean-grey/','/characters/angel/','/characters/gambit/','/world/','/factions/x-men/','/locations/mojoworld/','/lore/cerebro/','/world/friends-of-humanity/','/development/',...search.filter(e=>e.kind==='character').map(e=>new URL(e.url,origin).pathname.slice(base.length))])];
  for(const mobile of [false,true]){
@@ -54,6 +56,7 @@ try{
    await assert("[...document.images].every(i=>i.loading==='lazy'||(i.complete&&i.naturalWidth>0))",'Image failed: '+path);
    if(path.startsWith('/projects/'))await assert("document.querySelectorAll('.story-beat').length===15",'Missing film beats');
    if(path.startsWith('/characters/')&&path!=='/characters/')await assert("document.querySelector('#journey')&&document.querySelector('#timeline')",'Missing biography sections');
+   if(path==='/development/')await assert("document.querySelector('#credits').textContent.includes('Cody Conyers')&&document.querySelector('#credits').textContent.includes('art_by.coco')&&document.querySelector('#credits').textContent.includes('Character concept art')",'Development art credit missing');
    if(process.argv.includes('--v6')){
     const palette=path.startsWith('/characters/')?palettes[path.split('/')[2]]:undefined;
     const selected=Boolean(palette)||['/projects/x-men/','/projects/exile/','/factions/x-men/'].includes(path);
@@ -61,7 +64,7 @@ try{
     if(palette)await assert(`(()=>{const style=getComputedStyle(document.querySelector('.v6-character'));return style.getPropertyValue('--identity-primary').trim().toUpperCase()===${JSON.stringify(palette.primary)}&&style.getPropertyValue('--identity-secondary').trim().toUpperCase()===${JSON.stringify(palette.secondary)}&&style.getPropertyValue('--identity-accent').trim().toUpperCase()===${JSON.stringify(palette.accent??'')};})()`,'Rendered palette differs from approved data: '+path);
     if(selected){
      const name=path.split('/').filter(Boolean).join('-')+'-'+(mobile?'mobile':'desktop');
-     const capture=!path.startsWith('/characters/')||['cyclops','jean-grey','angel','gambit','magneto','mr-sinister','apocalypse','mojo','storm','domino','pyro','avalanche'].includes(path.split('/')[2]);
+     const capture=process.argv.includes('--uniforms')?uniformSlugs.includes(path.split('/')[2]):!path.startsWith('/characters/')||['cyclops','jean-grey','angel','gambit','magneto','mr-sinister','apocalypse','mojo','storm','domino','pyro','avalanche'].includes(path.split('/')[2]);
      if(capture)await writeFile(resolve(output,'v6-'+name+'.png'),Buffer.from((await call('Page.captureScreenshot',{format:'png'})).data,'base64'));
      if(path==='/characters/cyclops/'||path==='/characters/jean-grey/'){
       const expected=path.includes('cyclops')?['Black_Cyclops.jpg','OG_Cyclops.jpg','Cyclops.jpg']:['Jean_Black.jpg','OG_Jean.jpg','JeanGrey.jpg'];
@@ -75,6 +78,13 @@ try{
       }
       await evaluate("document.querySelector('#costumes').scrollIntoView({behavior:'instant',block:'start'})");
       await writeFile(resolve(output,'v6-gallery-'+name+'.png'),Buffer.from((await call('Page.captureScreenshot',{format:'png'})).data,'base64'));
+     }else if(path.startsWith('/characters/')&&uniformSlugs.includes(path.split('/')[2])){
+      const slug=path.split('/')[2];
+      await assert(`document.querySelector('.prepared-portrait img').src.endsWith('/images/uniforms/${slug}-header.webp')&&getComputedStyle(document.querySelector('.prepared-portrait img')).objectFit==='contain'&&getComputedStyle(document.querySelector('.prepared-portrait img')).transform==='none'&&document.querySelectorAll('.costume-plates img').length===1&&document.querySelector('.costume-plates img').src.endsWith('/images/uniforms/${slug}-uniform.webp')`,'Prepared header/full-body gallery mismatch: '+slug);
+      await assert("getComputedStyle(document.querySelector('.prepared-portrait img')).filter==='none'&&getComputedStyle(document.querySelector('.costume-plates img')).objectFit==='contain'&&document.querySelector('.folio-count').textContent==='01'",'Uniform artwork was filtered, cropped again, or given a fake gallery count');
+      await evaluate("document.querySelector('#costumes').scrollIntoView({behavior:'instant',block:'start'})");
+      await wait("document.querySelector('.costume-plates img').complete&&document.querySelector('.costume-plates img').naturalWidth>0");
+      if(capture)await writeFile(resolve(output,'uniform-gallery-'+name+'.png'),Buffer.from((await call('Page.captureScreenshot',{format:'png'})).data,'base64'));
      }else if(path.startsWith('/characters/'))await assert("!document.querySelector('.identity-art,.hero-art img,.costume-gallery')",'Portrait invented for an image-free character');
      if(path.startsWith('/characters/')){
       await assert(`(()=>{

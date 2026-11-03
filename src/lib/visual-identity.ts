@@ -1,6 +1,7 @@
 // V6.2 presentation data. Story/canon data remains in src/content/ unchanged.
 import characterPalettes from '../design/character-palettes.json';
-export type ConceptArt = {file:string;label:string;alt:string;width:number;height:number};
+import uniformArt from '../design/uniform-art.json';
+export type ConceptArt = {file:string;label:string;alt:string;width:number;height:number;preparedHeader?:boolean};
 export type VisualIdentity = {
   kind:'character'|'film'|'faction';
   motif:'portrait'|'editorial'|'visor'|'broadcast'|'emblem';
@@ -18,8 +19,16 @@ const characterIdentities:Record<string,VisualIdentity>=Object.fromEntries(Objec
     ...(palette.primary==='#161616'?{colorField:'secondary'}:{}),
   } satisfies VisualIdentity,
 ]));
+const uniformIdentities:Record<string,VisualIdentity>=Object.fromEntries(uniformArt.artwork.map(({character,gallerySize,headerCrop})=>{
+  const slug=character.toLowerCase();
+  const art:ConceptArt={file:`/images/uniforms/${slug}-uniform.webp`,label:'Uniform',alt:`${character}, full-body character uniform concept`,...gallerySize};
+  return [`character-${slug}`,{...characterIdentities[`character-${slug}`],motif:'portrait',costumes:[art],
+    headerArt:{...art,file:`/images/uniforms/${slug}-header.webp`,width:headerCrop.width,height:headerCrop.height,preparedHeader:true,alt:`${character}, upper-body crop of the supplied uniform concept`},
+  } satisfies VisualIdentity];
+}));
 const identities:Record<string,VisualIdentity>={
   ...characterIdentities,
+  ...uniformIdentities,
   'character-cyclops':{...characterIdentities['character-cyclops'],motif:'portrait',headerArt:{...cyclops[2],alt:'Cyclops in his standard costume, original illustration in the approved header crop'},costumes:cyclops},
   'character-jean-grey':{...characterIdentities['character-jean-grey'],motif:'portrait',headerArt:{...jean[2],alt:'Jean Grey in her standard costume, original illustration in the approved header crop'},costumes:jean},
   F1:{kind:'film',motif:'visor',primary:'#D80215',secondary:'#D80215'},

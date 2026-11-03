@@ -1,0 +1,170 @@
+{
+  "credit": {
+    "name": "Cody Conyers",
+    "handle": "art_by.coco",
+    "contribution": "Character concept art"
+  },
+  "method": "Owner-approved deterministic masking of flat grey backdrop; no generation, recoloring or filtering of character art. Header crops selected from character body landmarks.",
+  "artwork": [
+    {
+      "character": "Beast",
+      "source": "X-Men Uniforms/Beast.webp",
+      "sourceSha256": "2b55328a04767fd0255704557281ebef2b7af9c90c23c5f5d65cad8ec549e0b6",
+      "sourceSize": {
+        "width": 1080,
+        "height": 1440
+      },
+      "gallerySize": {
+        "width": 760,
+        "height": 920
+      },
+      "galleryCrop": {
+        "left": 150,
+        "top": 520,
+        "width": 760,
+        "height": 920
+      },
+      "background": "grey converted to black",
+      "backgroundPixels": 1179598,
+      "enclosedBackdropPockets": 2,
+      "headerCrop": {
+        "left": 210,
+        "top": 520,
+        "width": 700,
+        "height": 650
+      }
+    },
+    {
+      "character": "Gambit",
+      "source": "X-Men Uniforms/Gambit.webp",
+      "sourceSha256": "82feb5fe5d8d365c52cfe6bb6e8129319bfcc26b941923a2bcf4eb1a4919c426",
+      "sourceSize": {
+        "width": 1080,
+        "height": 1440
+      },
+      "gallerySize": {
+        "width": 1080,
+        "height": 1440
+      },
+      "background": "grey converted to black",
+      "backgroundPixels": 1051674,
+      "enclosedBackdropPockets": 0,
+      "headerCrop": {
+        "left": 255,
+        "top": 0,
+        "width": 610,
+        "height": 790
+      }
+    },
+    {
+      "character": "Nightcrawler",
+      "source": "X-Men Uniforms/Nightcrawler.webp",
+      "sourceSha256": "260d26e8de763950bd1211c2ca08029c8d6aad049832fb02e744d9b91be8a1b7",
+      "sourceSize": {
+        "width": 1080,
+        "height": 1440
+      },
+      "gallerySize": {
+        "width": 1080,
+        "height": 1440
+      },
+      "background": "grey converted to black",
+      "backgroundPixels": 982664,
+      "enclosedBackdropPockets": 0,
+      "headerCrop": {
+        "left": 200,
+        "top": 65,
+        "width": 750,
+        "height": 780
+      }
+    },
+    {
+      "character": "Rogue",
+      "source": "X-Men Uniforms/Rogue.webp",
+      "sourceSha256": "0d260752661bc494ccd743414c6a3d43e31954f719810bfe93cb0b2cbdc65058",
+      "sourceSize": {
+        "width": 1080,
+        "height": 1440
+      },
+      "gallerySize": {
+        "width": 1080,
+        "height": 1440
+      },
+      "background": "grey converted to black",
+      "backgroundPixels": 1251083,
+      "enclosedBackdropPockets": 0,
+      "headerCrop": {
+        "left": 280,
+        "top": 0,
+        "width": 550,
+        "height": 800
+      }
+    },
+    {
+      "character": "Shadowcat",
+      "source": "X-Men Uniforms/Shadowcat.webp",
+      "sourceSha256": "752fbfa975eece0ff980e1f829574d80b2bad573286c575fabf1de2cf8c73a48",
+      "sourceSize": {
+        "width": 1080,
+        "height": 1440
+      },
+      "gallerySize": {
+        "width": 1080,
+        "height": 1440
+      },
+      "background": "grey converted to black",
+      "backgroundPixels": 1287311,
+      "enclosedBackdropPockets": 2,
+      "headerCrop": {
+        "left": 320,
+        "top": 60,
+        "width": 460,
+        "height": 800
+      }
+    },
+    {
+      "character": "Storm",
+      "source": "X-Men Uniforms/Storm.webp",
+      "sourceSha256": "c6dd5e2fc90b679279fefc71d0241ce9c529a4db47606017d466811960d85b26",
+      "sourceSize": {
+        "width": 1080,
+        "height": 1440
+      },
+      "gallerySize": {
+        "width": 1080,
+        "height": 1440
+      },
+      "background": "already black; preserved",
+      "backgroundPixels": 0,
+      "enclosedBackdropPockets": 0,
+      "headerCrop": {
+        "left": 270,
+        "top": 10,
+        "width": 650,
+        "height": 850
+      }
+    },
+    {
+      "character": "Wolverine",
+      "source": "X-Men Uniforms/Wolverine.webp",
+      "sourceSha256": "441027b16f2c2e66eb35cce418afa015df54f72965ea40f731e6236057736c80",
+      "sourceSize": {
+        "width": 1080,
+        "height": 1440
+      },
+      "gallerySize": {
+        "width": 1080,
+        "height": 1440
+      },
+      "background": "already black; preserved",
+      "backgroundPixels": 0,
+      "enclosedBackdropPockets": 0,
+      "headerCrop": {
+        "left": 250,
+        "top": 90,
+        "width": 610,
+        "height": 800
+      }
+    }
+  ]
+}
