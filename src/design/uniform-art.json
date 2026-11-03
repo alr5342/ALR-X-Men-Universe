@@ -161,6 +161,12 @@
       },
       "costumes": [
         {
+          "file": "shadowcat-training-uniform.webp",
+          "label": "Training Uniform",
+          "width": 1080,
+          "height": 1440
+        },
+        {
           "file": "shadowcat-uniform.webp",
           "label": "Uniform",
           "width": 1080,
@@ -252,7 +258,7 @@
       "costumes": [
         {
           "file": "iceman-black-uniform.webp",
-          "label": "Black",
+          "label": "Training Uniform",
           "width": 1086,
           "height": 1448
         },
@@ -334,11 +340,11 @@
     },
     {
       "character": "Jean_Pestilence",
-      "source": "X-Men Uniforms/Jean_Pestilence.png",
-      "sourceSha256": "e3993b011ad4a2267960e0b810570d0dd875a84b9e71b1244d388a4809db06a0",
+      "source": "X-Men Uniforms/Jean_Pestilence_V2.png",
+      "sourceSha256": "49a7f0f98e00c73d4293ba95cfa5edc896a3c2eb50a41db8c18818015b15bb0f",
       "sourceSize": {
         "width": 589,
-        "height": 921
+        "height": 924
       },
       "gallerySize": {
         "width": 1080,
@@ -349,8 +355,8 @@
         "padding": {
           "top": 2,
           "bottom": 1,
-          "left": 80,
-          "right": 81
+          "left": 82,
+          "right": 82
         },
         "width": 1080,
         "canvasHeight": 1440
@@ -358,6 +364,33 @@
       "background": "already black; preserved",
       "backgroundPixels": 0,
       "enclosedBackdropPockets": 0
+    },
+    {
+      "character": "Shadowcat_Training",
+      "source": "X-Men Uniforms/Shadowcat_Training.png",
+      "sourceSha256": "7115814c124188522e067467ba850537766e0d16cf140bf4297a7aa06ec4496d",
+      "sourceSize": {
+        "width": 723,
+        "height": 964
+      },
+      "gallerySize": {
+        "width": 1080,
+        "height": 1440
+      },
+      "normalization": {
+        "height": 1440,
+        "padding": {
+          "top": 0,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        },
+        "width": 1080,
+        "canvasHeight": 1440
+      },
+      "background": "grey converted to black",
+      "backgroundPixels": 576680,
+      "enclosedBackdropPockets": 2
     }
   ]
 }

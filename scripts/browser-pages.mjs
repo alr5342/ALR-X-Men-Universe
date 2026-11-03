@@ -80,13 +80,16 @@ try{
       await writeFile(resolve(output,'v6-gallery-'+name+'.png'),Buffer.from((await call('Page.captureScreenshot',{format:'png'})).data,'base64'));
       if(path==='/characters/jean-grey/'){
        if(!mobile)await assert("new Set([...document.querySelectorAll('.costume-plates li')].map(el=>Math.round(el.getBoundingClientRect().top))).size===1",'Jean costumes are not in one desktop row');
-       await assert("JSON.stringify([...document.querySelectorAll('.costume-plates h3')].map(el=>el.textContent))===JSON.stringify(['Black','OG','Standard','Horseman of Pestilence'])&&document.querySelector('.identity-art figcaption strong').textContent==='Standard'",'Jean costume labels or standard header changed');
+       await assert("JSON.stringify([...document.querySelectorAll('.costume-plates h3')].map(el=>el.textContent))===JSON.stringify(['Training Uniform','OG','Standard','Horseman of Pestilence'])&&document.querySelector('.identity-art figcaption strong').textContent==='Standard'",'Jean costume labels or standard header changed');
        await evaluate("document.querySelector('.costume-plates li:last-child').scrollIntoView({behavior:'instant',block:'center'})");
        await writeFile(resolve(output,'jean-pestilence-gallery-'+(mobile?'mobile':'desktop')+'.png'),Buffer.from((await call('Page.captureScreenshot',{format:'png'})).data,'base64'));
       }
+      if(path==='/characters/cyclops/')await assert("JSON.stringify([...document.querySelectorAll('.costume-plates h3')].map(el=>el.textContent))===JSON.stringify(['Training Uniform','OG','Standard'])",'Cyclops Training Uniform labels failed');
      }else if(path.startsWith('/characters/')&&uniformSlugs.includes(path.split('/')[2])){
       const slug=path.split('/')[2];
       const concepts=uniformArt.artwork.find(a=>a.character.toLowerCase()===slug).costumes;
+      const headerLabel=(concepts.find(a=>a.label==='Standard'||a.label==='Uniform')??concepts[0]).label;
+      await assert(`document.querySelector('.identity-art figcaption strong').textContent===${JSON.stringify(headerLabel)}`,'Gallery additions changed the standard header label: '+slug);
       await assert(`document.querySelector('.prepared-portrait img').src.endsWith('/images/uniforms/${slug}-header.webp')&&getComputedStyle(document.querySelector('.prepared-portrait img')).objectFit==='cover'&&getComputedStyle(document.querySelector('.prepared-portrait img')).transform==='none'&&JSON.stringify(Array.from(document.querySelectorAll('.costume-plates img'),i=>i.src.split('/').pop()))===${JSON.stringify(JSON.stringify(concepts.map(a=>a.file)))}`,'Prepared header/full-body gallery mismatch: '+slug);
       await assert(`getComputedStyle(document.querySelector('.prepared-portrait img')).filter==='none'&&getComputedStyle(document.querySelector('.costume-plates img')).objectFit==='contain'&&JSON.stringify(Array.from(document.querySelectorAll('.costume-plates h3'),h=>h.textContent))===${JSON.stringify(JSON.stringify(concepts.map(a=>a.label)))}&&document.querySelector('.folio-count').textContent===${JSON.stringify(concepts.length===1?'01':`01 — ${String(concepts.length).padStart(2,'0')}`)}`,'Uniform artwork was filtered or gallery order/count changed');
       await evaluate("document.querySelector('#costumes').scrollIntoView({behavior:'instant',block:'start'})");

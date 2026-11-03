@@ -10,8 +10,8 @@ export type VisualIdentity = {
   costumes?:ConceptArt[];
 };
 const costume=(file:string,label:string,name:string):ConceptArt=>({file:`/images/concepts/${file}`,label,alt:`${name}, full-body ${label.toLowerCase()} costume concept`,width:1080,height:1440});
-const cyclops=[costume('Black_Cyclops.jpg','Black','Cyclops'),costume('OG_Cyclops.jpg','OG','Cyclops'),costume('Cyclops.jpg','Standard','Cyclops')];
-const jean=[costume('Jean_Black.jpg','Black','Jean Grey'),costume('OG_Jean.jpg','OG','Jean Grey'),costume('JeanGrey.jpg','Standard','Jean Grey'),{file:'/images/uniforms/jean-pestilence-uniform.webp',label:'Horseman of Pestilence',alt:'Jean Grey, full-body Horseman of Pestilence costume concept',width:1080,height:1440}];
+const cyclops=[costume('Black_Cyclops.jpg','Training Uniform','Cyclops'),costume('OG_Cyclops.jpg','OG','Cyclops'),costume('Cyclops.jpg','Standard','Cyclops')];
+const jean=[costume('Jean_Black.jpg','Training Uniform','Jean Grey'),costume('OG_Jean.jpg','OG','Jean Grey'),costume('JeanGrey.jpg','Standard','Jean Grey'),{file:'/images/uniforms/jean-pestilence-uniform.webp',label:'Horseman of Pestilence',alt:'Jean Grey, full-body Horseman of Pestilence costume concept',width:1080,height:1440}];
 const characterIdentities:Record<string,VisualIdentity>=Object.fromEntries(Object.entries(characterPalettes.palettes).map(([slug,palette])=>[
   `character-${slug}`,
   {kind:'character',motif:'editorial',primary:palette.primary,secondary:palette.secondary,
@@ -22,7 +22,7 @@ const characterIdentities:Record<string,VisualIdentity>=Object.fromEntries(Objec
 const uniformIdentities:Record<string,VisualIdentity>=Object.fromEntries(uniformArt.artwork.map(({character,costumes,headerCrop})=>{
   const slug=character.toLowerCase();
   const gallery:ConceptArt[]=costumes.map(({file,label,width,height})=>({file:`/images/uniforms/${file}`,label,width,height,alt:`${character}, full-body ${label.toLowerCase()} costume concept`}));
-  const art=gallery.find(art=>art.label==='Standard')??gallery[0];
+  const art=gallery.find(art=>art.label==='Standard'||art.label==='Uniform')??gallery[0];
   return [`character-${slug}`,{...characterIdentities[`character-${slug}`],motif:'portrait',costumes:gallery,
     headerArt:{...art,file:`/images/uniforms/${slug}-header.webp`,width:headerCrop.width,height:headerCrop.height,preparedHeader:true,alt:`${character}, upper-body crop of the supplied uniform concept`},
   } satisfies VisualIdentity];
