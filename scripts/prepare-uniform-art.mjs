@@ -7,15 +7,15 @@ import {createHash} from 'node:crypto';
 const input=resolve(process.argv[2]??'../X-Men Uniforms');
 const output=resolve('public/images/uniforms');
 const crops={
-  Beast:{left:220,top:530,width:620,height:510},
-  Gambit:{left:240,top:0,width:600,height:630},
-  Nightcrawler:{left:280,top:75,width:540,height:660},
-  Rogue:{left:280,top:0,width:560,height:650},
-  Shadowcat:{left:260,top:80,width:600,height:600},
-  Storm:{left:300,top:20,width:520,height:630},
-  Wolverine:{left:260,top:90,width:550,height:640},
-  Iceman:{left:270,top:20,width:560,height:610},
-  Iceman_Black:{left:270,top:20,width:560,height:610},
+  Beast:{left:189,top:520,width:682,height:562},
+  Gambit:{left:210,top:0,width:660,height:693},
+  Nightcrawler:{left:253,top:55,width:594,height:726},
+  Rogue:{left:252,top:0,width:616,height:715},
+  Shadowcat:{left:230,top:60,width:660,height:660},
+  Storm:{left:274,top:5,width:572,height:693},
+  Wolverine:{left:233,top:70,width:605,height:704},
+  Iceman:{left:242,top:5,width:616,height:671},
+  Iceman_Black:{left:242,top:5,width:616,height:671},
 };
 // Visually verified backdrop pockets in Beast's crouched pose.
 const pocketSeeds={Beast:[[460,965],[510,1200]]};
