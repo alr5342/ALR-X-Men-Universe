@@ -39,6 +39,12 @@
           "label": "Uniform",
           "width": 760,
           "height": 920
+        },
+        {
+          "file": "beast-war-uniform.webp",
+          "label": "Horseman of War",
+          "width": 760,
+          "height": 1000
         }
       ]
     },
@@ -255,6 +261,12 @@
           "label": "Standard",
           "width": 1086,
           "height": 1448
+        },
+        {
+          "file": "iceman-famine-uniform.webp",
+          "label": "Horseman of Famine",
+          "width": 1086,
+          "height": 1448
         }
       ]
     }
@@ -281,6 +293,44 @@
         "width": 616,
         "height": 671
       }
+    },
+    {
+      "character": "Beast_War",
+      "source": "X-Men Uniforms/Beast_War.png",
+      "sourceSha256": "8b96723ae634156a1a372c47c7fa38aa6a126efe6da55bd38747b1c6314d00b1",
+      "sourceSize": {
+        "width": 1085,
+        "height": 1450
+      },
+      "gallerySize": {
+        "width": 760,
+        "height": 1000
+      },
+      "galleryCrop": {
+        "left": 150,
+        "top": 450,
+        "width": 760,
+        "height": 1000
+      },
+      "background": "grey converted to black",
+      "backgroundPixels": 1169238,
+      "enclosedBackdropPockets": 2
+    },
+    {
+      "character": "Iceman_Famine",
+      "source": "X-Men Uniforms/Iceman_Famine.png",
+      "sourceSha256": "c5a2007e2c7f6d4a537cf4d2921db3cde4417cbfc1badc0f1b5e811724fc12c6",
+      "sourceSize": {
+        "width": 1086,
+        "height": 1448
+      },
+      "gallerySize": {
+        "width": 1086,
+        "height": 1448
+      },
+      "background": "grey converted to black",
+      "backgroundPixels": 731862,
+      "enclosedBackdropPockets": 2
     }
   ]
 }

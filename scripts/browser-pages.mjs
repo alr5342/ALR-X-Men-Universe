@@ -86,6 +86,11 @@ try{
       await evaluate("document.querySelector('#costumes').scrollIntoView({behavior:'instant',block:'start'})");
       await wait("document.querySelector('.costume-plates img').complete&&document.querySelector('.costume-plates img').naturalWidth>0");
       if(capture)await writeFile(resolve(output,'uniform-gallery-'+name+'.png'),Buffer.from((await call('Page.captureScreenshot',{format:'png'})).data,'base64'));
+      if(['beast','iceman'].includes(slug)){
+       await evaluate("document.querySelector('.costume-plates li:last-child').scrollIntoView({behavior:'instant',block:'center'})");
+       await wait("document.querySelector('.costume-plates li:last-child img').complete&&document.querySelector('.costume-plates li:last-child img').naturalWidth>0");
+       if(capture)await writeFile(resolve(output,'horseman-gallery-'+name+'.png'),Buffer.from((await call('Page.captureScreenshot',{format:'png'})).data,'base64'));
+      }
      }else if(path.startsWith('/characters/'))await assert("!document.querySelector('.identity-art,.hero-art img,.costume-gallery')",'Portrait invented for an image-free character');
      if(path.startsWith('/characters/')){
       await assert(`(()=>{

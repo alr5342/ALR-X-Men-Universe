@@ -22,7 +22,7 @@ const characterIdentities:Record<string,VisualIdentity>=Object.fromEntries(Objec
 const uniformIdentities:Record<string,VisualIdentity>=Object.fromEntries(uniformArt.artwork.map(({character,costumes,headerCrop})=>{
   const slug=character.toLowerCase();
   const gallery:ConceptArt[]=costumes.map(({file,label,width,height})=>({file:`/images/uniforms/${file}`,label,width,height,alt:`${character}, full-body ${label.toLowerCase()} costume concept`}));
-  const art=gallery[gallery.length-1];
+  const art=gallery.find(art=>art.label==='Standard')??gallery[0];
   return [`character-${slug}`,{...characterIdentities[`character-${slug}`],motif:'portrait',costumes:gallery,
     headerArt:{...art,file:`/images/uniforms/${slug}-header.webp`,width:headerCrop.width,height:headerCrop.height,preparedHeader:true,alt:`${character}, upper-body crop of the supplied uniform concept`},
   } satisfies VisualIdentity];
