@@ -7,6 +7,112 @@
   "method": "Owner-approved deterministic masking of neutral grey backdrop; no generation, recoloring or filtering of character art. Header crops selected from character body landmarks.",
   "artwork": [
     {
+      "character": "Angel",
+      "source": "X-Men Uniforms/Angel.png",
+      "sourceSha256": "072bb671998ef87a7696f54e4eecd3670956f0cd8fad6b80e5dde46c790866dc",
+      "sourceSize": {
+        "width": 2000,
+        "height": 2000
+      },
+      "gallerySize": {
+        "width": 1080,
+        "height": 1440
+      },
+      "galleryCrop": {
+        "left": 420,
+        "top": 400,
+        "width": 1200,
+        "height": 1600
+      },
+      "normalization": {
+        "height": 1440,
+        "padding": {
+          "top": 0,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        },
+        "width": 1080,
+        "canvasHeight": 1440
+      },
+      "background": "white converted to black",
+      "backgroundPixels": 2967849,
+      "enclosedBackdropPockets": 0,
+      "headerCrop": {
+        "left": 650,
+        "top": 440,
+        "width": 800,
+        "height": 840
+      },
+      "costumes": [
+        {
+          "file": "angel-training-uniform.webp",
+          "label": "Training Uniform",
+          "width": 1080,
+          "height": 1440
+        },
+        {
+          "file": "angel-uniform.webp",
+          "label": "Standard",
+          "width": 1080,
+          "height": 1440
+        }
+      ]
+    },
+    {
+      "character": "Colossus",
+      "source": "X-Men Uniforms/Colossus.jpg",
+      "sourceSha256": "c6e7f5727ff278b0c74f342739a600f739759ff3c39126e85977acda262c2a4e",
+      "sourceSize": {
+        "width": 1876,
+        "height": 1876
+      },
+      "gallerySize": {
+        "width": 1080,
+        "height": 1440
+      },
+      "galleryCrop": {
+        "left": 234,
+        "top": 0,
+        "width": 1407,
+        "height": 1876
+      },
+      "normalization": {
+        "height": 1440,
+        "padding": {
+          "top": 0,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        },
+        "width": 1080,
+        "canvasHeight": 1440
+      },
+      "background": "white converted to black",
+      "backgroundPixels": 2814958,
+      "enclosedBackdropPockets": 0,
+      "headerCrop": {
+        "left": 450,
+        "top": 0,
+        "width": 1000,
+        "height": 980
+      },
+      "costumes": [
+        {
+          "file": "colossus-training-uniform.webp",
+          "label": "Training Uniform",
+          "width": 1080,
+          "height": 1440
+        },
+        {
+          "file": "colossus-uniform.webp",
+          "label": "Standard",
+          "width": 1080,
+          "height": 1440
+        }
+      ]
+    },
+    {
       "character": "Beast",
       "source": "X-Men Uniforms/Beast.webp",
       "sourceSha256": "2b55328a04767fd0255704557281ebef2b7af9c90c23c5f5d65cad8ec549e0b6",
@@ -299,6 +405,72 @@
         "width": 616,
         "height": 671
       }
+    },
+    {
+      "character": "Angel_Training",
+      "source": "X-Men Uniforms/Angel_Training.png",
+      "sourceSha256": "6d9168b626b9fe0c02d7fb81fccb4cc529f0d837f8ff59012a737b38bac8c7ed",
+      "sourceSize": {
+        "width": 2000,
+        "height": 2000
+      },
+      "gallerySize": {
+        "width": 1080,
+        "height": 1440
+      },
+      "galleryCrop": {
+        "left": 420,
+        "top": 400,
+        "width": 1200,
+        "height": 1600
+      },
+      "normalization": {
+        "height": 1440,
+        "padding": {
+          "top": 0,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        },
+        "width": 1080,
+        "canvasHeight": 1440
+      },
+      "background": "white converted to black",
+      "backgroundPixels": 2967734,
+      "enclosedBackdropPockets": 0
+    },
+    {
+      "character": "Colossus_Training",
+      "source": "X-Men Uniforms/Colossus_Training.png",
+      "sourceSha256": "10561def14f01a07e70feb3bb9f07e1578a2188d4524d1ce6f05006c324a983b",
+      "sourceSize": {
+        "width": 1876,
+        "height": 1876
+      },
+      "gallerySize": {
+        "width": 1080,
+        "height": 1440
+      },
+      "galleryCrop": {
+        "left": 234,
+        "top": 0,
+        "width": 1407,
+        "height": 1876
+      },
+      "normalization": {
+        "height": 1440,
+        "padding": {
+          "top": 0,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        },
+        "width": 1080,
+        "canvasHeight": 1440
+      },
+      "background": "white converted to black",
+      "backgroundPixels": 2814151,
+      "enclosedBackdropPockets": 0
     },
     {
       "character": "Beast_War",
