@@ -1,6 +1,15 @@
 ---
 import type {Entity} from '../lib/universe';
+import {getVisualIdentity} from '../lib/visual-identity';
+import {withBase} from '../lib/paths';
 interface Props {items:Entity[]}
 const {items}=Astro.props;
 ---
-<ul class="directory-entries">{items.map(entity=><li><a class="directory-entry" href={entity.url} data-entity-id={entity.id}><strong class="directory-entry-title">{entity.title}</strong>{entity.provisional&&<span class="eyebrow directory-entry-note">Provisional name</span>}<p>{entity.summary}</p></a></li>)}</ul>
+<ul class="directory-entries">{items.map(entity=>{
+  const art=entity.kind==='character'?getVisualIdentity(entity.id)?.headerArt:undefined;
+  const character=entity.kind==='character';
+  return <li><a class:list={['directory-entry',{'has-character-thumbnail':Boolean(art)}]} href={entity.url} data-entity-id={entity.id}>
+    {art&&<span class:list={['directory-character-image',{'prepared-thumbnail':art.preparedHeader}]} data-character-image aria-hidden="true"><img src={withBase(art.file)} width={art.width} height={art.height} alt="" loading="lazy" decoding="async"/></span>}
+    <strong class="directory-entry-title"><span data-character-name={character?'':undefined}>{entity.title}</span></strong>{entity.provisional&&<span class="eyebrow directory-entry-note">Provisional name</span>}<p data-character-description={character?'':undefined}>{entity.summary}</p>
+  </a></li>;
+})}</ul>

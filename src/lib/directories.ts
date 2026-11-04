@@ -14,8 +14,7 @@ export function characterDirectory(entities:Entity[],links:Link[]){
   const mentor=['character-professor-xavier'];
   return validate([
     {id:'x-men',title:'X-Men',items:[],open:true,children:[
-      {id:'original-members',title:'Original Members',items:select(originals)},
-      {id:'founder-mentor',title:'Founder & Mentor',items:select(mentor)},
+      {id:'original-members',title:'Original Members',items:[...select(originals),...select(mentor)]},
       {id:'later-recruits',title:'Later Recruits',items:select(members('faction-x-men').filter(id=>![...originals,...mentor].includes(id)))},
     ]},
     {id:'adversaries',title:'Adversaries',items:[],children:[

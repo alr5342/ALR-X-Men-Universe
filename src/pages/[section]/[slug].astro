@@ -22,7 +22,7 @@ const affiliations=isCharacter?connected.filter(n=>n.entity.kind==='faction'&&n.
 const members=entity.kind==='faction'?connected.filter(n=>n.entity.kind==='character'&&n.link.kind==='member-of'):[];
 const organizations=entity.kind==='project'?connected.filter(n=>n.entity.kind==='faction'):[];
 ---
-<Layout title={entity.title} description={entity.summary} visualIdentity={visualIdentity}><Hero entity={entity}/>
+<Layout title={entity.title} description={entity.summary} visualIdentity={visualIdentity} characterTransitions={isCharacter}><Hero entity={entity}/>
 {entity.quickBio.length>0&&<section class="bio-facts" aria-label="At a glance"><dl>{entity.quickBio.map(f=><div><dt>{f.label}</dt><dd>{f.text}</dd></div>)}</dl></section>}
 <nav class="on-this-page" aria-label="On this page"><span class="eyebrow">On this page</span>{isCharacter?<><a href="#journey">Saga journey / Appearances</a><a href="#timeline">Character Timeline</a></>:<a href="#biography">{entity.kind==='project'?'Premise':'Overview'}</a>}{isFilm&&beatActs.map(act=><a href={`#${act.id}`}>Act {act.roman}: {act.title}</a>)}{entity.sections.map(s=><a href={`#${s.id}`}>{s.title}</a>)}{affiliations.length>0&&<a href="#affiliations">Affiliations</a>}{cast.length>0&&<a href="#cast">Cast</a>}{members.length>0&&<a href="#membership">Membership</a>}</nav>
 {isCharacter&&<CharacterJourney entity={entity} entities={entities}/>}

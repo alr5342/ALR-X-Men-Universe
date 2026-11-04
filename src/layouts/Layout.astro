@@ -6,13 +6,15 @@ import '../styles/beats.css';
 import '../styles/directories.css';
 import '../styles/visual-identity.css';
 import '../styles/character-refinements.css';
+import '../styles/character-transitions.css';
+import CharacterTransitions from '../components/CharacterTransitions.astro';
 import {identityStyle,type VisualIdentity} from '../lib/visual-identity';
 import Search from '../components/interactive/Search';
-interface Props {title?:string;description?:string;visualIdentity?:VisualIdentity}
-const { title='X-Men Universe', description='A five-film saga. A world of connected stories.',visualIdentity }=Astro.props;
+interface Props {title?:string;description?:string;visualIdentity?:VisualIdentity;characterTransitions?:boolean}
+const { title='X-Men Universe', description='A five-film saga. A world of connected stories.',visualIdentity,characterTransitions=false }=Astro.props;
 const path=Astro.url.pathname;
 ---
-<!doctype html><html lang="en"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1"/><meta name="description" content={description}/><title>{title} · X-Men Universe</title><link rel="icon" href={withBase("/favicon.svg")}/></head>
+<!doctype html><html lang="en" data-character-directory-url={characterTransitions?withBase('/characters/'):undefined}><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1"/><meta name="description" content={description}/><title>{title} · X-Men Universe</title><link rel="icon" href={withBase("/favicon.svg")}/>{characterTransitions&&<CharacterTransitions/>}</head>
 <body><a class="skip" href="#main">Skip to story</a>
 <header class="site-header"><a class="brand" href={withBase("/")} aria-label="X-Men Universe home"><span class="brand-mark">X</span><span>X-MEN <small>UNIVERSE</small></span></a>
 <nav aria-label="Main navigation">{['Saga','Characters','World','Development'].map(label=><a href={withBase(`/${label.toLowerCase()}/`)} aria-current={path.startsWith(withBase(`/${label.toLowerCase()}/`))?'page':undefined}>{label}</a>)}</nav>

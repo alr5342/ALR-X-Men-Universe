@@ -1,0 +1,24 @@
+/* Only the directory's new thumbnail needs layout space. Profile rules are intact. */
+[data-character-name]{display:inline-block;max-width:100%;vertical-align:top}
+.directory-entry.has-character-thumbnail{display:grid;grid-template-columns:minmax(0,1fr) 88px;column-gap:16px;align-content:start}
+.has-character-thumbnail>.directory-entry-title,.has-character-thumbnail>p,.has-character-thumbnail>.directory-entry-note{grid-column:1}
+.directory-character-image{display:block;grid-column:2;grid-row:1/3;align-self:start;position:relative;width:88px;height:104px;overflow:hidden;background:#000}
+.directory-character-image img{position:absolute;inset:0;width:100%;height:100%;max-width:none;object-fit:cover;object-position:50% 0%;transform:scale(1.72) rotate(-4deg);transform-origin:50% 0%}
+.directory-character-image.prepared-thumbnail img{transform:none}
+html[data-character-transition]::view-transition-group(*){animation-duration:480ms;animation-timing-function:cubic-bezier(.22,.68,.25,1)}
+html[data-character-transition]::view-transition-group(character-name),html[data-character-transition]::view-transition-group(character-description),html[data-character-transition]::view-transition-group(character-image){z-index:2}
+html[data-character-transition]::view-transition-old(root){animation:character-page-out 170ms ease-out both}
+html[data-character-transition]::view-transition-new(root){animation:character-page-in 360ms ease-out both}
+html[data-character-transition]::view-transition-old(character-name),html[data-character-transition]::view-transition-new(character-name),html[data-character-transition]::view-transition-old(character-description),html[data-character-transition]::view-transition-new(character-description){height:100%;object-fit:contain;object-position:left top;mix-blend-mode:normal}
+/* Scale one text snapshot rather than crossfading overlapping glyphs. */
+html[data-character-transition]::view-transition-old(character-name),html[data-character-transition]::view-transition-old(character-description){display:none}
+html[data-character-transition]::view-transition-new(character-name),html[data-character-transition]::view-transition-new(character-description){animation:none}
+html[data-character-transition]::view-transition-old(character-image),html[data-character-transition]::view-transition-new(character-image){height:100%;object-fit:cover;object-position:center;mix-blend-mode:normal}
+html[data-character-transition]::view-transition-old(character-image){animation:character-page-out 90ms ease-out both}
+html[data-character-transition]::view-transition-new(character-image){animation:character-page-in 90ms ease-out both}
+@keyframes character-page-out{to{opacity:0}}
+@keyframes character-page-in{from{opacity:0}to{opacity:1}}
+@media(prefers-reduced-motion:reduce){
+  @view-transition{navigation:none}
+  html::view-transition-group(*),html::view-transition-old(*),html::view-transition-new(*){animation:none!important}
+}

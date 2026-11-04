@@ -1,0 +1,7 @@
+---
+import controller from '../scripts/character-transitions.js?url';
+---
+<!-- Native document navigation keeps Astro islands and browser history intact. -->
+<style is:inline>@view-transition{navigation:auto}</style>
+<link rel="expect" href="#main" blocking="render"/>
+<script is:inline type="module" src={controller} {...{blocking:'render'}}></script>

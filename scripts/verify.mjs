@@ -72,12 +72,15 @@ for(const [route,id] of [['/characters/gambit/','background'],['/characters/gamb
 function orderedLinks(html,selector,expected){const actual=[...html.matchAll(selector)].map(m=>m[1]);return JSON.stringify(actual)===JSON.stringify(expected);}
 const expectedCharacters=['cyclops','jean-grey','angel','beast','iceman','professor-xavier','storm','magneto','wolverine','havok','polaris','shadowcat','nightcrawler','colossus','forge','rogue','gambit','domino','blob','toad','pyro','avalanche','william-stryker','robert-kelly','warren-worthington-ii','bolivar-trask','mr-sinister','apocalypse','mojo','callisto','caliban','leech','madin','artie','longshot'];
 const characterDirectory=pages.get('/characters/')??'',world=pages.get('/world/')??'';
-if(!orderedLinks(characterDirectory,/class="directory-entry" href="\/characters\/([^/]+)\//g,expectedCharacters))errors.push('Character directory grouping or narrative order differs');
-const directoryIds=html=>[...html.matchAll(/class="directory-entry"[^>]*data-entity-id="([^"]+)"/g)].map(m=>m[1]);
+if(!orderedLinks(characterDirectory,/class="directory-entry(?: [^"]*)?" href="\/characters\/([^/]+)\//g,expectedCharacters))errors.push('Character directory grouping or narrative order differs');
+const directoryIds=html=>[...html.matchAll(/class="directory-entry(?: [^"]*)?"[^>]*data-entity-id="([^"]+)"/g)].map(m=>m[1]);
 const characterIds=directoryIds(characterDirectory),worldIds=directoryIds(world);
 if(characterIds.length!==35||new Set(characterIds).size!==35)errors.push('Each of 35 characters must occur exactly once');
 if(worldIds.length!==20||new Set(worldIds).size!==20)errors.push('Each retained World entry must occur exactly once');
-for(const id of ['x-men','original-members','founder-mentor','later-recruits','adversaries','brotherhood','anti-mutant-figures','marauders','other-antagonists','allies','morlocks','independent-allies'])if(!new RegExp(`<details[^>]*id="${id}"`).test(characterDirectory))errors.push(`Missing collapsible character group ${id}`);
+for(const id of ['x-men','original-members','later-recruits','adversaries','brotherhood','anti-mutant-figures','marauders','other-antagonists','allies','morlocks','independent-allies'])if(!new RegExp(`<details[^>]*id="${id}"`).test(characterDirectory))errors.push(`Missing collapsible character group ${id}`);
+const originals=characterDirectory.match(/<details[^>]*id="original-members"[^>]*>[\s\S]*?<\/details>/)?.[0]??'';
+if(directoryIds(originals).join(',')!==['cyclops','jean-grey','angel','beast','iceman','professor-xavier'].map(s=>'character-'+s).join(','))errors.push('Original Members must contain six entries with Professor Xavier last');
+if(characterDirectory.includes('founder-mentor')||characterDirectory.includes('Founder &amp; Mentor'))errors.push('Removed Founder & Mentor group is still present');
 for(const id of ['organizations','institutions','locations','lore'])if(!new RegExp(`<details[^>]*id="${id}"`).test(world))errors.push(`Missing collapsible World group ${id}`);
 for(const path of [...pages.keys()].filter(p=>/^\/(characters|factions|locations|lore|world)\/[^/]+\/$/.test(p)))mustLink(path.startsWith('/characters/')?'/characters/':'/world/',path);
 if(!orderedLinks(world,/class="directory-entry" href="\/factions\/([^/]+)\//g,['x-men','morlocks','brotherhood','marauders','mojo-production','acolytes','four-horsemen','new-mutants','mrd','sentinel-program']))errors.push('World faction grouping or narrative order differs');
