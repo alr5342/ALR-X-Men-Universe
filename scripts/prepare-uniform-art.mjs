@@ -7,6 +7,7 @@ import {createHash} from 'node:crypto';
 const input=resolve(process.argv[2]??'../X-Men Uniforms');
 const output=resolve('public/images/uniforms');
 const crops={
+  Forge:{left:70,top:0,width:850,height:900},
   Angel:{left:650,top:440,width:800,height:840},
   Colossus:{left:450,top:0,width:1000,height:980},
   Beast:{left:189,top:520,width:682,height:562},
@@ -33,6 +34,7 @@ const angelCrop={left:420,top:400,width:1200,height:1600};
 const colossusCrop={left:234,top:0,width:1407,height:1876};
 const galleryCrops={Angel:angelCrop,Angel_Training:angelCrop,Colossus:colossusCrop,Colossus_Training:colossusCrop,Beast:{left:150,top:520,width:760,height:920},Beast_War:{left:150,top:450,width:760,height:1000}};
 const whiteUniforms={
+  Forge:{source:'Forge.png',seeds:[[570,240],[270,740]],threshold:244,normalization:{height:1440,padding:{top:0,bottom:0,left:155,right:155},width:1080,canvasHeight:1440}},
   Angel:{source:'Angel.png',seeds:[[1050,1330],[910,600],[1100,600]]},
   Angel_Training:{source:'Angel_Training.png',seeds:[[1050,1330],[910,600],[1100,600]]},
   Colossus:{source:'Colossus.jpg',seeds:[[1080,220],[900,1200],[670,550]]},
@@ -62,7 +64,7 @@ for(const [name,crop] of Object.entries({...crops,...Object.fromEntries(Object.k
       // The supplied Angel composite has neutral paper shading beside the collar.
       // Restrict that lower threshold to the reviewed gaps, outside the feathers.
       const collarPaper=name.startsWith('Angel')&&y>=615&&y<=710&&((x>=900&&x<=965)||(x>=1065&&x<=1120))&&low>=210&&high-low<=2;
-      if(low<248&&!collarPaper)return;
+      if(low<(whiteUniform.threshold??248)&&!collarPaper)return;
       mask[p]=1;queue[end++]=p;
     };
     for(let x=0;x<width;x++){visit(x);visit((height-1)*width+x);}
@@ -127,7 +129,7 @@ for(const [name,crop] of Object.entries({...crops,...Object.fromEntries(Object.k
   if(galleryCrop)gallery.extract(galleryCrop);
   // Match the existing concepts' full-body scale and 3:4 black canvas.
   // Full body stays visible; Angel's outer wings may extend beyond the frame.
-  const normalization=whiteUniform?{height:1440,padding:{top:0,bottom:0,left:0,right:0},width:1080,canvasHeight:1440}:variant?.normalization;
+  const normalization=whiteUniform?.normalization??(whiteUniform?{height:1440,padding:{top:0,bottom:0,left:0,right:0},width:1080,canvasHeight:1440}:variant?.normalization);
   if(normalization)gallery.resize({height:normalization.height}).extend({...normalization.padding,background:'#000'});
   await gallery.webp({lossless:true}).toFile(join(output,slug+'-uniform.webp'));
   if(crop&&name!=='Iceman_Black')await sharp(result,raw).extract(crop).webp({lossless:true}).toFile(join(output,slug+'-header.webp'));

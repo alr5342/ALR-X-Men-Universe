@@ -7,6 +7,47 @@
   "method": "Owner-approved deterministic masking of neutral grey backdrop; no generation, recoloring or filtering of character art. Header crops selected from character body landmarks.",
   "artwork": [
     {
+      "character": "Forge",
+      "source": "X-Men Uniforms/Forge.png",
+      "sourceSha256": "58286b0319fb1b63ea1aac74dfb9424918655333a9c76ea0d6a31f131d363b65",
+      "sourceSize": {
+        "width": 948,
+        "height": 1773
+      },
+      "gallerySize": {
+        "width": 1080,
+        "height": 1440
+      },
+      "normalization": {
+        "height": 1440,
+        "padding": {
+          "top": 0,
+          "bottom": 0,
+          "left": 155,
+          "right": 155
+        },
+        "width": 1080,
+        "canvasHeight": 1440
+      },
+      "background": "white converted to black",
+      "backgroundPixels": 1134045,
+      "enclosedBackdropPockets": 0,
+      "headerCrop": {
+        "left": 70,
+        "top": 0,
+        "width": 850,
+        "height": 900
+      },
+      "costumes": [
+        {
+          "file": "forge-uniform.webp",
+          "label": "Standard",
+          "width": 1080,
+          "height": 1440
+        }
+      ]
+    },
+    {
       "character": "Angel",
       "source": "X-Men Uniforms/Angel.png",
       "sourceSha256": "072bb671998ef87a7696f54e4eecd3670956f0cd8fad6b80e5dde46c790866dc",
