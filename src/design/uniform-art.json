@@ -7,6 +7,59 @@
   "method": "Owner-approved deterministic masking of neutral grey backdrop; no generation, recoloring or filtering of character art. Header crops selected from character body landmarks.",
   "artwork": [
     {
+      "character": "Havok",
+      "source": "X-Men Uniforms/Havok.png",
+      "sourceSha256": "02fba777b1405d1fc9a3e3bef3ee3d5127b3de2eb657524c3d3703952c1b4919",
+      "sourceSize": {
+        "width": 1440,
+        "height": 1440
+      },
+      "gallerySize": {
+        "width": 1080,
+        "height": 1440
+      },
+      "galleryCrop": {
+        "left": 180,
+        "top": 0,
+        "width": 1080,
+        "height": 1440
+      },
+      "normalization": {
+        "height": 1440,
+        "padding": {
+          "top": 0,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        },
+        "width": 1080,
+        "canvasHeight": 1440
+      },
+      "background": "white converted to black",
+      "backgroundPixels": 1682629,
+      "enclosedBackdropPockets": 0,
+      "headerCrop": {
+        "left": 340,
+        "top": 0,
+        "width": 760,
+        "height": 800
+      },
+      "costumes": [
+        {
+          "file": "havok-training-uniform.webp",
+          "label": "Training Uniform",
+          "width": 1080,
+          "height": 1440
+        },
+        {
+          "file": "havok-uniform.webp",
+          "label": "Standard",
+          "width": 1080,
+          "height": 1440
+        }
+      ]
+    },
+    {
       "character": "Forge",
       "source": "X-Men Uniforms/Forge.png",
       "sourceSha256": "58286b0319fb1b63ea1aac74dfb9424918655333a9c76ea0d6a31f131d363b65",
@@ -446,6 +499,39 @@
         "width": 616,
         "height": 671
       }
+    },
+    {
+      "character": "Havok_Training",
+      "source": "X-Men Uniforms/Havok_Training.png",
+      "sourceSha256": "34fa2f071061f8df64a6ed10d65e48ebbde998872e41fa5e2ca0251f63ac05a1",
+      "sourceSize": {
+        "width": 1440,
+        "height": 1440
+      },
+      "gallerySize": {
+        "width": 1080,
+        "height": 1440
+      },
+      "galleryCrop": {
+        "left": 180,
+        "top": 0,
+        "width": 1080,
+        "height": 1440
+      },
+      "normalization": {
+        "height": 1440,
+        "padding": {
+          "top": 0,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        },
+        "width": 1080,
+        "canvasHeight": 1440
+      },
+      "background": "white converted to black",
+      "backgroundPixels": 1681663,
+      "enclosedBackdropPockets": 0
     },
     {
       "character": "Angel_Training",

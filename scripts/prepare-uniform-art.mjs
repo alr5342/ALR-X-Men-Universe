@@ -7,6 +7,7 @@ import {createHash} from 'node:crypto';
 const input=resolve(process.argv[2]??'../X-Men Uniforms');
 const output=resolve('public/images/uniforms');
 const crops={
+  Havok:{left:340,top:0,width:760,height:800},
   Forge:{left:70,top:0,width:850,height:900},
   Angel:{left:650,top:440,width:800,height:840},
   Colossus:{left:450,top:0,width:1000,height:980},
@@ -23,6 +24,7 @@ const crops={
 // Visually verified backdrop pockets in Beast's crouched pose.
 const pocketSeeds={Beast:[[460,965],[510,1200]]};
 const variants={
+  Havok_Training:{character:'Havok',label:'Training Uniform',placement:'before',background:'white',seeds:[]},
   Angel_Training:{character:'Angel',label:'Training Uniform',placement:'before',background:'white',seeds:[]},
   Colossus_Training:{character:'Colossus',label:'Training Uniform',placement:'before',background:'white',seeds:[]},
   Beast_War:{character:'Beast',label:'Horseman of War',seeds:[[475,960],[510,1210]]},
@@ -32,8 +34,11 @@ const variants={
 };
 const angelCrop={left:420,top:400,width:1200,height:1600};
 const colossusCrop={left:234,top:0,width:1407,height:1876};
-const galleryCrops={Angel:angelCrop,Angel_Training:angelCrop,Colossus:colossusCrop,Colossus_Training:colossusCrop,Beast:{left:150,top:520,width:760,height:920},Beast_War:{left:150,top:450,width:760,height:1000}};
+const havokCrop={left:180,top:0,width:1080,height:1440};
+const galleryCrops={Havok:havokCrop,Havok_Training:havokCrop,Angel:angelCrop,Angel_Training:angelCrop,Colossus:colossusCrop,Colossus_Training:colossusCrop,Beast:{left:150,top:520,width:760,height:920},Beast_War:{left:150,top:450,width:760,height:1000}};
 const whiteUniforms={
+  Havok:{source:'Havok.png',seeds:[],fringeRadius:3,fringeMin:210,fringeSpread:35},
+  Havok_Training:{source:'Havok_Training.png',seeds:[],fringeRadius:3,fringeMin:210,fringeSpread:35},
   Forge:{source:'Forge.png',seeds:[[570,240],[270,740]],threshold:244,normalization:{height:1440,padding:{top:0,bottom:0,left:155,right:155},width:1080,canvasHeight:1440}},
   Angel:{source:'Angel.png',seeds:[[1050,1330],[910,600],[1100,600]]},
   Angel_Training:{source:'Angel_Training.png',seeds:[[1050,1330],[910,600],[1100,600]]},
@@ -77,8 +82,13 @@ for(const [name,crop] of Object.entries({...crops,...Object.fromEntries(Object.k
     // Remove a single neutral paper-matte fringe, never interior highlights.
     for(let p=0;p<total;p++)if(!mask[p]){
       const x=p%width,y=Math.floor(p/width),i=p*3,r=data[i],g=data[i+1],b=data[i+2];
-      if(Math.min(r,g,b)<180||Math.max(r,g,b)-Math.min(r,g,b)>10)continue;
-      if((x&&mask[p-1])||(x<width-1&&mask[p+1])||(y&&mask[p-width])||(y<height-1&&mask[p+width]))result.fill(0,i,i+3);
+      if(Math.min(r,g,b)<(whiteUniform.fringeMin??180)||Math.max(r,g,b)-Math.min(r,g,b)>(whiteUniform.fringeSpread??10))continue;
+      let edge=(x&&mask[p-1])||(x<width-1&&mask[p+1])||(y&&mask[p-width])||(y<height-1&&mask[p+width]);
+      if(whiteUniform.fringeRadius)for(let dy=-whiteUniform.fringeRadius;dy<=whiteUniform.fringeRadius&&!edge;dy++)for(let dx=-whiteUniform.fringeRadius;dx<=whiteUniform.fringeRadius;dx++){
+        const nx=x+dx,ny=y+dy;
+        if(nx>=0&&nx<width&&ny>=0&&ny<height&&mask[ny*width+nx]){edge=true;break;}
+      }
+      if(edge)result.fill(0,i,i+3);
     }
   }else if(grey){
     const candidate=new Uint8Array(total),visited=new Uint8Array(total),mask=new Uint8Array(total),queue=new Int32Array(total);
