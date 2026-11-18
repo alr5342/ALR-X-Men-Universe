@@ -134,6 +134,8 @@ for(const [name,crop] of Object.entries({...crops,...Object.fromEntries(Object.k
   }
   const slug=name.toLowerCase().replace('_','-');
   const raw={raw:{width,height,channels:3}};
+  // Film galleries retain Beast's original uncropped composition. Personal art stays unchanged.
+  if(name==='Beast')await sharp(result,raw).webp({lossless:true}).toFile(join(output,'beast-film-uniform.webp'));
   const galleryCrop=galleryCrops[name];
   const gallery=sharp(result,raw);
   if(galleryCrop)gallery.extract(galleryCrop);

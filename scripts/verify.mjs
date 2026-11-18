@@ -85,7 +85,11 @@ for(const id of ['organizations','institutions','locations','lore'])if(!new RegE
 for(const path of [...pages.keys()].filter(p=>/^\/(characters|factions|locations|lore|world)\/[^/]+\/$/.test(p)))mustLink(path.startsWith('/characters/')?'/characters/':'/world/',path);
 if(!orderedLinks(world,/class="directory-entry" href="\/factions\/([^/]+)\//g,['x-men','morlocks','brotherhood','marauders','mojo-production','acolytes','four-horsemen','new-mutants','mrd','sentinel-program']))errors.push('World faction grouping or narrative order differs');
 for(const [html,expected] of [[film1,['cyclops','professor-xavier','iceman','jean-grey','angel','domino','beast','blob','toad','pyro','avalanche','robert-kelly','warren-worthington-ii','bolivar-trask']],[film4,['cyclops','shadowcat','magneto','storm','angel','william-stryker','robert-kelly','professor-xavier','rogue','jean-grey','wolverine','nightcrawler','colossus','gambit','warren-worthington-ii','bolivar-trask','forge','beast','mr-sinister']]]){
- if(!orderedLinks(html,/class="cast-row" href="\/characters\/([^/]+)\//g,expected))errors.push('Film-specific cast order differs');
+ const pictured=[...html.matchAll(/class="film-cast-card"[^>]*href="\/characters\/([^/]+)\//g)].map(m=>m[1]);
+ const remaining=expected.filter(slug=>!pictured.includes(slug));
+ const textCast=[...html.matchAll(/class="cast-row"[^>]*href="\/characters\/([^/]+)\//g)].map(m=>m[1]);
+ const combined=[...pictured,...textCast];
+ if(JSON.stringify(textCast)!==JSON.stringify(remaining)||expected.some(slug=>!combined.includes(slug))||new Set(combined).size!==combined.length)errors.push('Film cast membership, additional character order or deduplication differs');
 }
 const expectedColors=['#D80215','#04479E','#FBCC16','#4B207D','#5F7E9B'];
 const expectedImages=['cyclops','beast','mojo','glmk','apocalypse'];

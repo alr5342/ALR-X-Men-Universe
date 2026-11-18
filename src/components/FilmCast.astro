@@ -1,0 +1,54 @@
+---
+import {withBase} from '../lib/paths';
+import {getFilmCostumes} from '../lib/film-costumes';
+import type {Entity,Link} from '../lib/universe';
+interface Props {film:Entity;entities:Entity[];cast:{entity:Entity;link:Link}[]}
+const {film,entities,cast}=Astro.props;
+const groups=getFilmCostumes(film.id,entities);
+const illustrated=new Set(groups.flatMap(g=>g.entries.map(e=>e.entity.id)));
+const additional=cast.filter(c=>!illustrated.has(c.entity.id));
+---
+<section class="section cast film-cast" id="cast" style={film.filmColor?`--film-color:${film.filmColor}`:undefined}>
+  <p class="eyebrow">Roles and biographies</p><h2>Characters in Film {film.sagaOrder}</h2>
+  {groups.map((group,index)=><section class="film-cast-group" aria-labelledby={`${film.id}-cast-group-${index}`}>
+    <h3 id={`${film.id}-cast-group-${index}`} class="film-cast-group-title">{group.title}</h3>
+    <ul class="film-cast-grid" data-columns={group.columns} style={`--cast-columns:${group.columns}`}>
+      {group.entries.map(({entity,art,label})=><li>
+        <a class="film-cast-card" href={entity.url} data-character-id={entity.id} aria-labelledby={`${film.id}-${entity.id}-name`}>
+          <figure><div class="film-cast-art"><img src={withBase(art.file)} alt={art.alt} width={art.width} height={art.height} loading="lazy" decoding="async"/></div>
+          <figcaption id={`${film.id}-${entity.id}-name`}>{label}</figcaption></figure>
+        </a>
+      </li>)}
+    </ul>
+  </section>)}
+  {additional.length>0&&<div class="additional-cast">
+    {groups.length>0&&<h3 class="film-cast-group-title">Additional characters</h3>}
+    {additional.map(({entity,link})=><a class="cast-row" href={entity.url} data-character-id={entity.id}><h3>{entity.title}</h3><p>{link.label}</p><span>↗</span></a>)}
+  </div>}
+</section>
+
+<style>
+  .film-cast-group{margin-top:42px}
+  .film-cast-group-title{font-size:32px;margin:0 0 24px}
+  .film-cast-grid{--cast-active-columns:var(--cast-columns);--cast-gap:22px;list-style:none;padding:0;margin:0;display:flex;flex-wrap:wrap;justify-content:center;gap:30px var(--cast-gap)}
+  .film-cast-grid li{min-width:0;flex:0 0 calc((100% + var(--cast-gap))/var(--cast-active-columns) - var(--cast-gap))}
+  .film-cast-card{display:block;height:100%}
+  .film-cast-card figure{margin:0}
+  /* Reserve the existing frame geometry; paint the visible border inside it. */
+  .film-cast-art{position:relative;background:#000;border:1px solid transparent;border-top-width:3px;padding:12px}
+  .film-cast-art::after{content:'';position:absolute;inset:0;pointer-events:none;border:1px solid var(--film-color,var(--gold))}
+  .film-cast-art img{display:block;width:100%;height:auto;aspect-ratio:3/4;object-fit:contain;object-position:center;filter:none;transform:none}
+  .film-cast-card figcaption{font-family:var(--display);font-size:clamp(22px,2vw,28px);line-height:1.15;padding:14px 0 16px;border-bottom:1px solid var(--line);overflow-wrap:anywhere}
+  .film-cast-card:hover .film-cast-art::after,.film-cast-card:focus-visible .film-cast-art::after{border-width:3px}
+  .film-cast-card:hover figcaption{color:var(--gold)}
+  .film-cast-card:focus-visible{outline:2px solid var(--gold);outline-offset:5px}
+  .additional-cast{margin-top:52px}
+  @media(max-width:1100px){.film-cast-grid{--cast-active-columns:3;--cast-gap:18px;row-gap:28px}}
+  @media(max-width:650px){
+    .film-cast-group{margin-top:32px}
+    .film-cast-grid{--cast-active-columns:2;--cast-gap:16px;row-gap:24px}
+    .film-cast-art{padding:9px}
+    .film-cast-card figcaption{font-size:24px;padding-top:12px}
+    .additional-cast{margin-top:40px}
+  }
+</style>
